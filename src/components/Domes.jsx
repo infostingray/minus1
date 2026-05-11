@@ -10,12 +10,12 @@ const domes = [
     name: 'Atrium',
     tagline: 'The habitable canopy. A residential geodesic suspended in glass.',
     type: 'RESIDENTIAL',
-    diameter: '12 â 18 m',
+    diameter: '12 — 18 m',
     height: '8.4 m',
     panels: 'Low-iron triple-glaze',
-    capacity: '6 â 14 occupants',
+    capacity: '6 — 14 occupants',
     summary:
-      'A climate-controlled luxury habitat designed to integrate with a subterranean Bunker. The Atrium is a single-volume sanctuary â open plan beneath an unbroken glass sky, finished in solid stone, brass, and walnut. Sunlight by day, observatory by night.',
+      'A climate-controlled luxury habitat designed to integrate with a subterranean Bunker. The Atrium is a single-volume sanctuary — open plan beneath an unbroken glass sky, finished in solid stone, brass, and walnut. Sunlight by day, observatory by night.',
     inclusions: [
       'Triple-glazed low-iron sky panels',
       'Powder-coated structural alloy frame',
@@ -31,7 +31,7 @@ const domes = [
     name: 'Verdant',
     tagline: 'The productive canopy. A self-sufficient cultivation pavilion.',
     type: 'PROVISIONING',
-    diameter: '8 â 14 m',
+    diameter: '8 — 14 m',
     height: '6.2 m',
     panels: 'ETFE inflated layer',
     capacity: '180-day food autonomy',
@@ -48,7 +48,7 @@ const domes = [
   },
 ];
 
-/* SVG glyph illustrations â geodesic patterns */
+/* SVG glyph illustrations — geodesic patterns */
 function AtriumGlyph() {
   return (
     <svg viewBox="0 0 400 400" className="w-full h-full">
@@ -68,7 +68,7 @@ function AtriumGlyph() {
       <path d="M93 240 Q200 220 307 240" fill="none" stroke="currentColor" strokeWidth="0.3" opacity="0.5" />
       <path d="M115 180 Q200 160 285 180" fill="none" stroke="currentColor" strokeWidth="0.3" opacity="0.5" />
       <path d="M150 135 Q200 122 250 135" fill="none" stroke="currentColor" strokeWidth="0.3" opacity="0.5" />
-      {/* Sun marker â orange */}
+      {/* Sun marker — orange */}
       <circle cx="200" cy="60" r="4" fill="#FF6B1A" />
       <line x1="200" y1="50" x2="200" y2="40" stroke="#FF6B1A" strokeWidth="1" />
       <line x1="200" y1="80" x2="200" y2="90" stroke="#FF6B1A" strokeWidth="1" opacity="0.5" />
@@ -77,7 +77,7 @@ function AtriumGlyph() {
       <line x1="220" y1="300" x2="220" y2="340" stroke="#FF6B1A" strokeWidth="1" />
       <line x1="170" y1="340" x2="230" y2="340" stroke="#FF6B1A" strokeWidth="1" />
       <text x="200" y="365" textAnchor="middle" fontFamily="JetBrains Mono" fontSize="9" fill="currentColor" opacity="0.5">
-        â TO BUNKER
+        ↓ TO BUNKER
       </text>
     </svg>
   );
@@ -90,7 +90,7 @@ function VerdantGlyph() {
       <line x1="20" y1="300" x2="380" y2="300" stroke="currentColor" strokeWidth="0.5" opacity="0.4" />
       {/* Dome outline */}
       <ellipse cx="200" cy="300" rx="140" ry="200" fill="none" stroke="currentColor" strokeWidth="1.2" />
-      {/* clip to upper hemisphere via a rect mask not needed â ellipse extends below ground naturally clipped by viewBox sense */}
+      {/* clip to upper hemisphere via a rect mask not needed — ellipse extends below ground naturally clipped by viewBox sense */}
       {/* Triangulation facets */}
       {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
         const angle = (i / 8) * Math.PI;
@@ -127,7 +127,7 @@ function VerdantGlyph() {
       <line x1="220" y1="300" x2="220" y2="340" stroke="#FF6B1A" strokeWidth="1" />
       <line x1="170" y1="340" x2="230" y2="340" stroke="#FF6B1A" strokeWidth="1" />
       <text x="200" y="365" textAnchor="middle" fontFamily="JetBrains Mono" fontSize="9" fill="currentColor" opacity="0.5">
-        â TO PROVISIONING
+        ↓ TO PROVISIONING
       </text>
     </svg>
   );
@@ -144,7 +144,7 @@ export default function Domes() {
       <div className="max-w-7xl mx-auto px-6">
         {/* HEADER */}
         <div className="flex items-baseline justify-between border-b hairline pb-6 mb-12">
-          <p className="label text-bone/60"><span className="text-orange">N° 03</span> â Domes</p>
+          <p className="label text-bone/60"><span className="text-orange">N° 03</span> — Domes</p>
           <p className="label text-bone/60 hidden md:block">Two Canopies · Above the Surface</p>
         </div>
 
@@ -158,7 +158,7 @@ export default function Domes() {
           </div>
           <div className="lg:col-span-4 lg:col-start-9 self-end">
             <p className="text-pale text-[15px] leading-relaxed">
-              Each MINUS 1 estate is conceived as a continuous environment. The Bunker provides continuity below. The Dome â habitable or productive â is its counterpart above.
+              Each MINUS 1 estate is conceived as a continuous environment. The Bunker provides continuity below. The Dome — habitable or productive — is its counterpart above.
             </p>
           </div>
         </div>

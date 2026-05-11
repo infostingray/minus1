@@ -3,12 +3,12 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import SplitText from './SplitText';
 
 /* Cinematic photography of finished MINUS 1 environments.
-   Sourced from Unsplash CDN â swap with bespoke photography as portfolio grows. */
+   Sourced from Unsplash CDN — swap with bespoke photography as portfolio grows. */
 const PLATES = [
   {
     url: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1600&q=85&auto=format&fit=crop',
     title: 'The Atrium, Suite VII',
-    location: 'Private Estate Â· Dubai',
+    location: 'Private Estate · Dubai',
     tag: 'INTERIOR',
     aspect: 'aspect-[4/5]',
     span: 'md:col-span-5 md:row-span-2',
@@ -24,7 +24,7 @@ const PLATES = [
   {
     url: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600&q=85&auto=format&fit=crop',
     title: 'Asset Vault',
-    location: 'TL-30 Rated Â· Climate Controlled',
+    location: 'TL-30 Rated · Climate Controlled',
     tag: 'STORAGE',
     aspect: 'aspect-square',
     span: 'md:col-span-4',
@@ -32,7 +32,7 @@ const PLATES = [
   {
     url: 'https://images.unsplash.com/photo-1503174971373-b1f69850bded?w=1600&q=85&auto=format&fit=crop',
     title: 'Approach',
-    location: 'Concealed Entry Â· GCC',
+    location: 'Concealed Entry · GCC',
     tag: 'EXTERIOR',
     aspect: 'aspect-[5/4]',
     span: 'md:col-span-3',
@@ -40,7 +40,7 @@ const PLATES = [
   {
     url: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1600&q=85&auto=format&fit=crop',
     title: 'Provisioning',
-    location: 'Verdant Dome Â· Hydroponic',
+    location: 'Verdant Dome · Hydroponic',
     tag: 'PROVISIONING',
     aspect: 'aspect-[4/3]',
     span: 'md:col-span-7',
@@ -48,7 +48,7 @@ const PLATES = [
   {
     url: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1600&q=85&auto=format&fit=crop',
     title: 'Majlis Suite',
-    location: 'Citadel Â· Bespoke Millwork',
+    location: 'Citadel · Bespoke Millwork',
     tag: 'RECEPTION',
     aspect: 'aspect-[4/3]',
     span: 'md:col-span-5',
@@ -115,7 +115,7 @@ export default function Gallery() {
         {/* HEADER */}
         <div className="grid grid-cols-12 gap-4 mb-12 md:mb-20 border-b hairline pb-8">
           <div className="col-span-12 md:col-span-3">
-            <div className="label text-bone/60"><span className="text-orange">N° 04</span> â Archive</div>
+            <div className="label text-bone/60"><span className="text-orange">N° 04</span> — Archive</div>
           </div>
           <div className="col-span-12 md:col-span-9">
             <h2 className="display text-4xl md:text-6xl lg:text-7xl text-bone leading-[0.95]">
@@ -127,7 +127,7 @@ export default function Gallery() {
           </div>
         </div>
 
-        {/* PHOTO GRID â asymmetric */}
+        {/* PHOTO GRID — asymmetric */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4 auto-rows-auto">
           {PLATES.map((p, i) => (
             <Plate key={p.url} plate={p} index={i} />
@@ -137,7 +137,7 @@ export default function Gallery() {
         {/* FOOTER NOTE */}
         <div className="mt-12 grid grid-cols-12 gap-4 pt-6 border-t hairline label text-bone/40">
           <div className="col-span-6">All identifying details redacted</div>
-          <div className="col-span-6 text-right">06 of 84 plates Â· full archive on request</div>
+          <div className="col-span-6 text-right">06 of 84 plates · full archive on request</div>
         </div>
       </div>
     </section>

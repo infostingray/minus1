@@ -2,10 +2,10 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
 
-/* ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-   CONCIERGE â multi-step intake modal
+/* ──────────────────────────────────────────────────────────────
+   CONCIERGE — multi-step intake modal
    Opens via: window.dispatchEvent(new CustomEvent('open-concierge'))
-   ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+   ────────────────────────────────────────────────────────────── */
 
 const STEPS = [
   {
@@ -40,7 +40,7 @@ const STEPS = [
     key: 'investment',
     label: '04 / Range',
     q: 'Estimated investment?',
-    options: ['$250K â $1M', '$1M â $5M', '$5M â $20M', '$20M+', 'Undisclosed'],
+    options: ['$250K — $1M', '$1M — $5M', '$5M — $20M', '$20M+', 'Undisclosed'],
   },
   {
     type: 'form',
@@ -120,7 +120,7 @@ export default function Concierge() {
 
   const submit = () => {
     const body = encodeURIComponent(
-      `MINUS 1 â Concierge Brief
+      `MINUS 1 — Concierge Brief
 
 ` +
       `Environment: ${answers.environment}
@@ -140,10 +140,10 @@ export default function Concierge() {
 
 ` +
       `Notes:
-${answers.notes || 'â'}
+${answers.notes || '—'}
 `
     );
-    const subject = encodeURIComponent(`Concierge Brief â ${answers.name || 'Prospective Principal'}`);
+    const subject = encodeURIComponent(`Concierge Brief — ${answers.name || 'Prospective Principal'}`);
     window.location.href = `mailto:vault@minus1.studio?subject=${subject}&body=${body}`;
     next();
   };
@@ -170,7 +170,7 @@ ${answers.notes || 'â'}
               <div className="flex items-center gap-3 label text-bone/60">
                 <span className="w-1.5 h-1.5 rounded-full bg-orange animate-pulse" />
                 <span className="text-orange">CONCIERGE</span>
-                <span className="hidden md:inline text-bone/30">Â·</span>
+                <span className="hidden md:inline text-bone/30">·</span>
                 <span className="hidden md:inline tabular-nums text-bone/30">{time} UTC</span>
               </div>
               <button
@@ -178,7 +178,7 @@ ${answers.notes || 'â'}
                 className="label text-bone/60 hover:text-orange transition-colors flex items-center gap-2"
               >
                 <span className="hidden md:inline">CLOSE</span>
-                <span className="text-lg">â</span>
+                <span className="text-lg">✕</span>
               </button>
             </div>
             {/* PROGRESS */}
@@ -222,7 +222,7 @@ ${answers.notes || 'â'}
                         className="label bg-orange text-ink px-8 py-4 hover:bg-orange-bright transition-colors inline-flex items-center gap-3"
                       >
                         {current.cta}
-                        <span>â</span>
+                        <span>→</span>
                       </button>
                     </Magnetic>
                   </>
@@ -246,7 +246,7 @@ ${answers.notes || 'â'}
                           }`}
                         >
                           <span className="text-base md:text-lg">{opt}</span>
-                          <span className="opacity-0 group-hover:opacity-100 transition-opacity">â</span>
+                          <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
                         </motion.button>
                       ))}
                     </div>
@@ -276,14 +276,14 @@ ${answers.notes || 'â'}
                             }`}
                           >
                             Send Brief
-                            <span>â</span>
+                            <span>→</span>
                           </button>
                         </Magnetic>
                         <button
                           onClick={back}
                           className="label text-bone/50 hover:text-bone px-4 py-4 transition-colors"
                         >
-                          â BACK
+                          ← BACK
                         </button>
                       </div>
                     </div>
@@ -292,7 +292,7 @@ ${answers.notes || 'â'}
 
                 {current.type === 'confirm' && (
                   <>
-                    <div className="display text-orange text-6xl md:text-8xl mb-8">â</div>
+                    <div className="display text-orange text-6xl md:text-8xl mb-8">✓</div>
                     <h2 className="display text-4xl md:text-6xl text-bone leading-[1.05] mb-6 max-w-3xl">
                       {current.title}
                     </h2>
@@ -316,7 +316,7 @@ ${answers.notes || 'â'}
                 onClick={back}
                 className="label text-bone/40 hover:text-bone mt-8 self-start transition-colors"
               >
-                â BACK
+                ← BACK
               </button>
             )}
           </div>

@@ -12,18 +12,18 @@ const categories = [
 ];
 
 const items = [
-  { code: 'LS-001', category: 'life-support', name: 'NBC Air Filtration', sub: 'Swiss VA-40 system', spec: 'Nuclear Â· biological Â· chemical', metric: '99.97%', metricLabel: 'particulate removal' },
-  { code: 'LS-002', category: 'life-support', name: 'Hydroponic Provisioning Bay', sub: 'Closed-loop cultivation', spec: '12-tier vertical Â· LED spectrum', metric: '180d', metricLabel: 'food autonomy' },
-  { code: 'LS-003', category: 'life-support', name: 'Potable Water Reserve', sub: 'Subfloor reservoir + UV cycle', spec: '6,500 L Â· triple-stage filtration', metric: '180d', metricLabel: 'continuous supply' },
-  { code: 'LS-004', category: 'life-support', name: 'Climate Cellar', sub: 'Nine-constant regulation', spec: '19â24Â°C Â· 50â65% RH Â· 30dB', metric: '±0.1%', metricLabel: 'oxygen precision' },
-  { code: 'SC-001', category: 'security', name: 'Blast Door AR500', sub: 'Bulletproof steel + overpressure seal', spec: '1 MPa Â· airtight Â· explosion-rated', metric: '50kPa', metricLabel: 'overpressure' },
-  { code: 'SC-002', category: 'security', name: 'Biometric Access Console', sub: 'Multi-factor authentication', spec: 'Retinal Â· vein Â· keypad redundancy', metric: '4FA', metricLabel: 'auth layers' },
-  { code: 'SC-003', category: 'security', name: 'Encrypted Comms Suite', sub: 'Satellite + mesh radio', spec: 'Iridium uplink Â· faraday-shielded', metric: 'AES-256', metricLabel: 'encryption' },
-  { code: 'IN-001', category: 'interiors', name: 'Majlis Suite', sub: 'Bespoke reception hall', spec: 'Hand-crafted millwork Â· acoustic treatment', metric: 'N°01', metricLabel: 'signature' },
-  { code: 'IN-002', category: 'interiors', name: 'Private Cinema', sub: 'Dolby Atmos Â· 4K laser', spec: 'Acoustic isolation Â· tiered seating', metric: '7.4.4', metricLabel: 'channel layout' },
-  { code: 'IN-003', category: 'interiors', name: 'Asset Vault', sub: 'Climate-controlled storage', spec: 'Biometric Â· seismic isolation Â· UL-rated', metric: 'TL-30', metricLabel: 'penetration class' },
-  { code: 'AU-001', category: 'autonomy', name: 'Independent Power Plant', sub: 'Dual 40kVA + solar + battery', spec: 'Silent diesel Â· lithium reserve Â· grid-tied', metric: '90d', metricLabel: 'off-grid runtime' },
-  { code: 'AU-002', category: 'autonomy', name: 'Medical Pod', sub: 'Telemetry-linked treatment bay', spec: 'Isolation Â· diagnostics Â· pharma reserve', metric: '24/7', metricLabel: 'remote consult' },
+  { code: 'LS-001', category: 'life-support', name: 'NBC Air Filtration', sub: 'Swiss VA-40 system', spec: 'Nuclear · biological · chemical', metric: '99.97%', metricLabel: 'particulate removal' },
+  { code: 'LS-002', category: 'life-support', name: 'Hydroponic Provisioning Bay', sub: 'Closed-loop cultivation', spec: '12-tier vertical · LED spectrum', metric: '180d', metricLabel: 'food autonomy' },
+  { code: 'LS-003', category: 'life-support', name: 'Potable Water Reserve', sub: 'Subfloor reservoir + UV cycle', spec: '6,500 L · triple-stage filtration', metric: '180d', metricLabel: 'continuous supply' },
+  { code: 'LS-004', category: 'life-support', name: 'Climate Cellar', sub: 'Nine-constant regulation', spec: '19–24Â°C · 50–65% RH · 30dB', metric: '±0.1%', metricLabel: 'oxygen precision' },
+  { code: 'SC-001', category: 'security', name: 'Blast Door AR500', sub: 'Bulletproof steel + overpressure seal', spec: '1 MPa · airtight · explosion-rated', metric: '50kPa', metricLabel: 'overpressure' },
+  { code: 'SC-002', category: 'security', name: 'Biometric Access Console', sub: 'Multi-factor authentication', spec: 'Retinal · vein · keypad redundancy', metric: '4FA', metricLabel: 'auth layers' },
+  { code: 'SC-003', category: 'security', name: 'Encrypted Comms Suite', sub: 'Satellite + mesh radio', spec: 'Iridium uplink · faraday-shielded', metric: 'AES-256', metricLabel: 'encryption' },
+  { code: 'IN-001', category: 'interiors', name: 'Majlis Suite', sub: 'Bespoke reception hall', spec: 'Hand-crafted millwork · acoustic treatment', metric: 'N°01', metricLabel: 'signature' },
+  { code: 'IN-002', category: 'interiors', name: 'Private Cinema', sub: 'Dolby Atmos · 4K laser', spec: 'Acoustic isolation · tiered seating', metric: '7.4.4', metricLabel: 'channel layout' },
+  { code: 'IN-003', category: 'interiors', name: 'Asset Vault', sub: 'Climate-controlled storage', spec: 'Biometric · seismic isolation · UL-rated', metric: 'TL-30', metricLabel: 'penetration class' },
+  { code: 'AU-001', category: 'autonomy', name: 'Independent Power Plant', sub: 'Dual 40kVA + solar + battery', spec: 'Silent diesel · lithium reserve · grid-tied', metric: '90d', metricLabel: 'off-grid runtime' },
+  { code: 'AU-002', category: 'autonomy', name: 'Medical Pod', sub: 'Telemetry-linked treatment bay', spec: 'Isolation · diagnostics · pharma reserve', metric: '24/7', metricLabel: 'remote consult' },
 ];
 
 const categoryLabel = (id) => id.replace('-', ' ').toUpperCase();
@@ -39,7 +39,7 @@ export default function Catalogue() {
         {/* HEADER */}
         <div className="grid grid-cols-12 gap-4 mb-12 md:mb-20">
           <div className="col-span-12 md:col-span-3">
-            <div className="label text-ink/50"><span className="text-orange">N° 05</span> â Catalogue</div>
+            <div className="label text-ink/50"><span className="text-orange">N° 05</span> — Catalogue</div>
           </div>
           <div className="col-span-12 md:col-span-6">
             <h2 className="display text-4xl md:text-6xl leading-[0.95] tracking-tight">
@@ -56,7 +56,7 @@ export default function Catalogue() {
           </div>
         </div>
 
-        {/* FILTER PILLS â horizontal scroll on mobile, sticky on desktop */}
+        {/* FILTER PILLS — horizontal scroll on mobile, sticky on desktop */}
         <LayoutGroup>
           <div className="sticky top-20 md:top-24 z-30 bg-bone/95 backdrop-blur-md -mx-6 px-6 py-3 mb-8 md:mb-12 border-y border-ink/15 overflow-x-auto no-scrollbar">
             <div className="flex gap-2 min-w-max">

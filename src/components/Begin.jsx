@@ -32,7 +32,7 @@ export default function Begin() {
           className="label text-orange mb-8 flex items-center justify-center gap-4"
         >
           <span className="w-8 h-px bg-orange" />
-          <span>N° 06 â Engage</span>
+          <span>N° 06 — Engage</span>
           <span className="w-8 h-px bg-orange" />
         </motion.div>
 
@@ -49,7 +49,7 @@ export default function Begin() {
           transition={{ duration: 1, delay: 0.4 }}
           className="text-pale text-base md:text-xl leading-relaxed max-w-2xl mx-auto mb-12 md:mb-16"
         >
-          MINUS 1 engagements proceed by referral and qualification. The Concierge is a private channel â five questions, then direct contact with a principal.
+          MINUS 1 engagements proceed by referral and qualification. The Concierge is a private channel — five questions, then direct contact with a principal.
         </motion.p>
 
         {/* CTA */}
@@ -67,7 +67,7 @@ export default function Begin() {
             >
               <span className="w-2 h-2 rounded-full bg-ink animate-pulse" />
               Open Concierge
-              <span className="group-hover:translate-x-1 transition-transform">â</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
             </button>
           </Magnetic>
           <span className="label text-bone/40">OR</span>

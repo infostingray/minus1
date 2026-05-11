@@ -6,7 +6,7 @@ const tenets = [
   {
     num: '01',
     head: 'Private Spaces',
-    body: 'Exclusive underground environments built into existing or new real estate developments â concealed in daily life, activated when required.',
+    body: 'Exclusive underground environments built into existing or new real estate developments — concealed in daily life, activated when required.',
   },
   {
     num: '02',
@@ -16,7 +16,7 @@ const tenets = [
   {
     num: '03',
     head: 'Modular Systems',
-    body: 'Scalable, configurable subterranean systems designed to evolve with the owner â from a single Vault to a generational Ark.',
+    body: 'Scalable, configurable subterranean systems designed to evolve with the owner — from a single Vault to a generational Ark.',
   },
 ];
 
@@ -33,7 +33,7 @@ export default function Manifesto() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-baseline justify-between mb-16 md:mb-24 border-b border-bone/10 pb-6">
           <p className="label text-bone/60">
-            <span className="text-orange">N° 01</span> â Manifesto
+            <span className="text-orange">N° 01</span> — Manifesto
           </p>
           <p className="label text-bone/60 hidden md:block">A New Layer of Living</p>
         </div>
@@ -54,7 +54,7 @@ export default function Manifesto() {
               className="mt-12 max-w-xl space-y-6 text-pale leading-relaxed text-[15px]"
             >
               <p>
-                MINUS 1 is a luxury underground infrastructure brand â designing and delivering private, secure, and fully integrated subterranean environments. We do not build bunkers. We build a layer of life that sits below the everyday one, ready for any future the world decides to offer.
+                MINUS 1 is a luxury underground infrastructure brand — designing and delivering private, secure, and fully integrated subterranean environments. We do not build bunkers. We build a layer of life that sits below the everyday one, ready for any future the world decides to offer.
               </p>
               <p>
                 Each project is engineered in military-grade alloys, finished in residential luxury, and concealed inside the architectural fabric of the homes above them. Continuity is the product. Privacy is the proof.

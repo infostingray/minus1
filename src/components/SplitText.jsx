@@ -1,15 +1,15 @@
 import { motion } from 'framer-motion';
 
 /**
- * SplitText — animates each word in a heading with a mask reveal.
- * Words slide up from below an invisible line on viewport entry.
+ * SplitText — fades each word up on viewport entry. No overflow clipping,
+ * which was eating descenders and making whole sections look empty.
  */
 export default function SplitText({
   children,
   className = '',
   delay = 0,
   stagger = 0.05,
-  duration = 0.9,
+  duration = 0.8,
   as: Tag = 'span',
   once = true,
 }) {
@@ -22,26 +22,21 @@ export default function SplitText({
   return (
     <Tag className={className}>
       {words.map((word, i) => (
-        <span
+        <motion.span
           key={i}
-          className="inline-block overflow-hidden align-bottom"
-          style={{ lineHeight: '1' }}
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once, amount: 0.15 }}
+          transition={{
+            duration,
+            delay: delay + i * stagger,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="inline-block"
         >
-          <motion.span
-            className="inline-block"
-            initial={{ y: '110%' }}
-            whileInView={{ y: '0%' }}
-            viewport={{ once, margin: '-10% 0px' }}
-            transition={{
-              duration,
-              delay: delay + i * stagger,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            {word}
-            {i < words.length - 1 ? '\u00A0' : ''}
-          </motion.span>
-        </span>
+          {word}
+          {i < words.length - 1 ? '\u00A0' : ''}
+        </motion.span>
       ))}
     </Tag>
   );
