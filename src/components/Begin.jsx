@@ -10,7 +10,7 @@ export default function Begin() {
       {/* background photographic plate */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=2400&q=85&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1637935142056-03d421b2b13c?w=2400&q=85&auto=format&fit=crop"
           alt=""
           loading="lazy"
           className="absolute inset-0 w-full h-full object-cover opacity-25"

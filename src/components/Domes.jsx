@@ -14,6 +14,8 @@ const domes = [
     height: '8.4 m',
     panels: 'Low-iron triple-glaze',
     capacity: '6 — 14 occupants',
+    image: 'https://images.unsplash.com/photo-1706464662649-5b075ef6e5af?w=1600&q=88&auto=format&fit=crop',
+    image2: 'https://images.unsplash.com/photo-1660313140427-aedb86597570?w=1600&q=88&auto=format&fit=crop',
     summary:
       'A climate-controlled luxury habitat designed to integrate with a subterranean Bunker. The Atrium is a single-volume sanctuary — open plan beneath an unbroken glass sky, finished in solid stone, brass, and walnut. Sunlight by day, observatory by night.',
     inclusions: [
@@ -35,6 +37,8 @@ const domes = [
     height: '6.2 m',
     panels: 'ETFE inflated layer',
     capacity: '180-day food autonomy',
+    image: 'https://images.unsplash.com/photo-1637935068558-a1f39612620d?w=1600&q=88&auto=format&fit=crop',
+    image2: 'https://images.unsplash.com/photo-1660313096407-73b597e742e3?w=1600&q=88&auto=format&fit=crop',
     summary:
       "A closed-loop hydroponic dome engineered to supply a household indefinitely. Verdant pairs with a Bunker's provisioning bay to extend autonomy from months to years. Year-round cultivation in any climate, automated and discreet.",
     inclusions: [
@@ -48,93 +52,6 @@ const domes = [
   },
 ];
 
-/* SVG glyph illustrations — geodesic patterns */
-function AtriumGlyph() {
-  return (
-    <svg viewBox="0 0 400 400" className="w-full h-full">
-      {/* Ground line */}
-      <line x1="20" y1="300" x2="380" y2="300" stroke="currentColor" strokeWidth="0.5" opacity="0.4" />
-      {/* Dome outline */}
-      <path d="M80 300 Q80 100 200 100 Q320 100 320 300 Z" fill="none" stroke="currentColor" strokeWidth="1.2" />
-      {/* Geodesic facets */}
-      <path d="M80 300 Q140 180 200 100" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.6" />
-      <path d="M120 300 Q160 180 200 100" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.6" />
-      <path d="M160 300 Q180 200 200 100" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.6" />
-      <path d="M200 300 L200 100" stroke="currentColor" strokeWidth="0.4" opacity="0.6" />
-      <path d="M240 300 Q220 200 200 100" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.6" />
-      <path d="M280 300 Q240 180 200 100" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.6" />
-      <path d="M320 300 Q260 180 200 100" fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.6" />
-      {/* horizontal latitude lines */}
-      <path d="M93 240 Q200 220 307 240" fill="none" stroke="currentColor" strokeWidth="0.3" opacity="0.5" />
-      <path d="M115 180 Q200 160 285 180" fill="none" stroke="currentColor" strokeWidth="0.3" opacity="0.5" />
-      <path d="M150 135 Q200 122 250 135" fill="none" stroke="currentColor" strokeWidth="0.3" opacity="0.5" />
-      {/* Sun marker — orange */}
-      <circle cx="200" cy="60" r="4" fill="#FF6B1A" />
-      <line x1="200" y1="50" x2="200" y2="40" stroke="#FF6B1A" strokeWidth="1" />
-      <line x1="200" y1="80" x2="200" y2="90" stroke="#FF6B1A" strokeWidth="1" opacity="0.5" />
-      {/* Foundation connection */}
-      <line x1="180" y1="300" x2="180" y2="340" stroke="#FF6B1A" strokeWidth="1" />
-      <line x1="220" y1="300" x2="220" y2="340" stroke="#FF6B1A" strokeWidth="1" />
-      <line x1="170" y1="340" x2="230" y2="340" stroke="#FF6B1A" strokeWidth="1" />
-      <text x="200" y="365" textAnchor="middle" fontFamily="JetBrains Mono" fontSize="9" fill="currentColor" opacity="0.5">
-        ↓ TO BUNKER
-      </text>
-    </svg>
-  );
-}
-
-function VerdantGlyph() {
-  return (
-    <svg viewBox="0 0 400 400" className="w-full h-full">
-      {/* Ground */}
-      <line x1="20" y1="300" x2="380" y2="300" stroke="currentColor" strokeWidth="0.5" opacity="0.4" />
-      {/* Dome outline */}
-      <ellipse cx="200" cy="300" rx="140" ry="200" fill="none" stroke="currentColor" strokeWidth="1.2" />
-      {/* clip to upper hemisphere via a rect mask not needed — ellipse extends below ground naturally clipped by viewBox sense */}
-      {/* Triangulation facets */}
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
-        const angle = (i / 8) * Math.PI;
-        const x1 = 200 - 140 * Math.cos(angle);
-        const y1 = 300 - 200 * Math.sin(angle);
-        return <line key={`r-${i}`} x1="200" y1="300" x2={x1} y2={y1} stroke="currentColor" strokeWidth="0.3" opacity="0.4" />;
-      })}
-      {/* Latitude bands */}
-      {[0.3, 0.6, 0.85].map((r, i) => (
-        <ellipse key={`lat-${i}`} cx="200" cy="300" rx={140 * r} ry={200 * r} fill="none" stroke="currentColor" strokeWidth="0.3" opacity="0.4" />
-      ))}
-      {/* Plant rows inside */}
-      {[260, 280].map((y, i) => (
-        <g key={`row-${i}`}>
-          <line x1="100" y1={y} x2="300" y2={y} stroke="#FF6B1A" strokeWidth="0.8" />
-          {[120, 160, 200, 240, 280].map((x) => (
-            <circle key={x} cx={x} cy={y - 4} r="2" fill="#FF6B1A" />
-          ))}
-        </g>
-      ))}
-      {/* Vertical tier */}
-      <line x1="200" y1="120" x2="200" y2="240" stroke="currentColor" strokeWidth="0.4" opacity="0.5" strokeDasharray="3 3" />
-      {/* CO2/Water indicators */}
-      <g transform="translate(70 90)">
-        <circle r="14" fill="none" stroke="#FF6B1A" strokeWidth="0.8" />
-        <text textAnchor="middle" dominantBaseline="middle" fontFamily="JetBrains Mono" fontSize="8" fill="#FF6B1A">CO₂</text>
-      </g>
-      <g transform="translate(330 90)">
-        <circle r="14" fill="none" stroke="#FF6B1A" strokeWidth="0.8" />
-        <text textAnchor="middle" dominantBaseline="middle" fontFamily="JetBrains Mono" fontSize="8" fill="#FF6B1A">H₂O</text>
-      </g>
-      {/* Foundation */}
-      <line x1="180" y1="300" x2="180" y2="340" stroke="#FF6B1A" strokeWidth="1" />
-      <line x1="220" y1="300" x2="220" y2="340" stroke="#FF6B1A" strokeWidth="1" />
-      <line x1="170" y1="340" x2="230" y2="340" stroke="#FF6B1A" strokeWidth="1" />
-      <text x="200" y="365" textAnchor="middle" fontFamily="JetBrains Mono" fontSize="9" fill="currentColor" opacity="0.5">
-        ↓ TO PROVISIONING
-      </text>
-    </svg>
-  );
-}
-
-const glyphs = { atrium: AtriumGlyph, verdant: VerdantGlyph };
-
 export default function Domes() {
   const [active, setActive] = useState(null);
   const activeDome = domes.find((d) => d.id === active);
@@ -144,16 +61,26 @@ export default function Domes() {
       <div className="max-w-7xl mx-auto px-6">
         {/* HEADER */}
         <div className="flex items-baseline justify-between border-b hairline pb-6 mb-12">
-          <p className="label text-bone/60"><span className="text-orange">N° 03</span> — Domes</p>
-          <p className="label text-bone/60 hidden md:block">Two Canopies · Above the Surface</p>
+          <p className="label text-bone/60">
+            <span className="text-orange">N° 03</span> — Domes
+          </p>
+          <p className="label text-bone/60 hidden md:block">
+            Two Canopies · Above the Surface
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8 mb-16 md:mb-24">
           <div className="lg:col-span-7">
             <h2 className="display text-bone text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
-              <SplitText as="span" className="block">The surface companion.</SplitText>
-              <SplitText as="span" className="block italic text-silver" delay={0.15}>Where the bunker ends,</SplitText>
-              <SplitText as="span" className="block" delay={0.3}>the dome begins.</SplitText>
+              <SplitText as="span" className="block">
+                The surface companion.
+              </SplitText>
+              <SplitText as="span" className="block italic text-silver" delay={0.15}>
+                Where the bunker ends,
+              </SplitText>
+              <SplitText as="span" className="block" delay={0.3}>
+                the dome begins.
+              </SplitText>
             </h2>
           </div>
           <div className="lg:col-span-4 lg:col-start-9 self-end">
@@ -163,78 +90,92 @@ export default function Domes() {
           </div>
         </div>
 
-        {/* DOME CARDS */}
-        <div className="grid md:grid-cols-2 gap-px bg-bone/10 border hairline">
-          {domes.map((d, i) => {
-            const Glyph = glyphs[d.id];
-            return (
-              <motion.article
-                key={d.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 1, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative bg-ink p-8 md:p-12 cursor-pointer hover:bg-coal transition-colors"
-                onClick={() => setActive(d.id)}
-              >
-                <div className="flex items-start justify-between mb-8">
+        {/* DOME CARDS — photo driven, similar style to Bunkers */}
+        <div className="flex gap-4 md:gap-6 overflow-x-auto pb-6 -mx-6 px-6 snap-x snap-mandatory md:overflow-visible md:grid md:grid-cols-2">
+          {domes.map((d, i) => (
+            <motion.article
+              key={d.id}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 1, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="group relative w-[85vw] md:w-auto flex-shrink-0 snap-start"
+            >
+              {/* Image with hover scale */}
+              <div className="relative aspect-[4/5] overflow-hidden bg-ink border hairline">
+                <img
+                  src={d.image}
+                  alt={d.name}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover transition-all duration-[1500ms] group-hover:scale-105"
+                  style={{ filter: 'grayscale(0.2) contrast(1.05) brightness(0.85)' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
+
+                {/* corner ticks */}
+                <span className="absolute top-4 left-4 w-3 h-px bg-bone/40" />
+                <span className="absolute top-4 left-4 w-px h-3 bg-bone/40" />
+                <span className="absolute top-4 right-4 w-3 h-px bg-bone/40" />
+                <span className="absolute top-4 right-4 w-px h-3 bg-bone/40" />
+
+                {/* Top labels */}
+                <div className="absolute top-5 left-5 right-5 flex justify-between label text-bone/70">
+                  <span className="text-orange">N° {d.num}</span>
+                  <span>{d.type}</span>
+                </div>
+
+                {/* Title block at bottom of image */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                  <h3 className="display text-bone text-5xl md:text-6xl mb-2">
+                    {d.name}
+                  </h3>
+                  <p className="text-pale text-sm max-w-xs leading-relaxed">
+                    {d.tagline}
+                  </p>
+                </div>
+              </div>
+
+              {/* Specs row + CTA */}
+              <div className="mt-4 grid grid-cols-12 gap-4 items-start">
+                <div className="col-span-7 grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <div className="label text-orange">N° {d.num}</div>
-                    <div className="label text-bone/40 mt-1">{d.type}</div>
+                    <p className="label mb-1 text-bone/40">Diameter</p>
+                    <p className="font-mono text-xs text-pale">{d.diameter}</p>
                   </div>
-                  <motion.div
-                    className="label text-bone/30 group-hover:text-orange transition-colors"
+                  <div>
+                    <p className="label mb-1 text-bone/40">Height</p>
+                    <p className="font-mono text-xs text-pale">{d.height}</p>
+                  </div>
+                  <div>
+                    <p className="label mb-1 text-bone/40">Glazing</p>
+                    <p className="font-mono text-xs text-pale">{d.panels}</p>
+                  </div>
+                  <div>
+                    <p className="label mb-1 text-bone/40">Capacity</p>
+                    <p className="font-mono text-xs text-pale">{d.capacity}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActive(d.id)}
+                  className="col-span-5 group/btn h-full min-h-[88px] flex flex-col items-end justify-between border border-bone/30 p-4 hover:bg-orange hover:text-ink hover:border-orange transition-all duration-300"
+                >
+                  <span className="self-start label group-hover/btn:text-ink transition-colors">
+                    Inspect
+                  </span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
                   >
-                    INSPECT →
-                  </motion.div>
-                </div>
-
-                {/* Glyph */}
-                <div className="relative aspect-square w-full max-w-[400px] mx-auto mb-8 text-bone/70 group-hover:text-bone transition-colors">
-                  <motion.div
-                    className="absolute inset-0"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <Glyph />
-                  </motion.div>
-                  {/* corner ticks */}
-                  <span className="absolute top-0 left-0 w-3 h-px bg-bone/40" />
-                  <span className="absolute top-0 left-0 w-px h-3 bg-bone/40" />
-                  <span className="absolute top-0 right-0 w-3 h-px bg-bone/40" />
-                  <span className="absolute top-0 right-0 w-px h-3 bg-bone/40" />
-                  <span className="absolute bottom-0 left-0 w-3 h-px bg-bone/40" />
-                  <span className="absolute bottom-0 left-0 w-px h-3 bg-bone/40" />
-                  <span className="absolute bottom-0 right-0 w-3 h-px bg-bone/40" />
-                  <span className="absolute bottom-0 right-0 w-px h-3 bg-bone/40" />
-                </div>
-
-                {/* Title */}
-                <h3 className="display text-bone text-5xl md:text-6xl mb-3">{d.name}</h3>
-                <p className="text-pale text-sm max-w-xs leading-relaxed mb-8">{d.tagline}</p>
-
-                {/* Quick specs */}
-                <div className="grid grid-cols-2 gap-y-3 border-t hairline pt-6">
-                  <div>
-                    <div className="label text-bone/40 mb-1">Diameter</div>
-                    <div className="text-bone/80 text-sm">{d.diameter}</div>
-                  </div>
-                  <div>
-                    <div className="label text-bone/40 mb-1">Height</div>
-                    <div className="text-bone/80 text-sm">{d.height}</div>
-                  </div>
-                  <div>
-                    <div className="label text-bone/40 mb-1">Glazing</div>
-                    <div className="text-bone/80 text-sm">{d.panels}</div>
-                  </div>
-                  <div>
-                    <div className="label text-bone/40 mb-1">Capacity</div>
-                    <div className="text-bone/80 text-sm">{d.capacity}</div>
-                  </div>
-                </div>
-              </motion.article>
-            );
-          })}
+                    <line x1="5" y1="19" x2="19" y2="5" />
+                    <polyline points="9 5 19 5 19 15" />
+                  </svg>
+                </button>
+              </div>
+            </motion.article>
+          ))}
         </div>
 
         {/* DETAIL MODAL */}
@@ -258,8 +199,12 @@ export default function Domes() {
               >
                 <div className="flex justify-between items-start mb-12">
                   <div>
-                    <div className="label text-orange">N° {activeDome.num} · {activeDome.type}</div>
-                    <h2 className="display text-bone text-6xl md:text-8xl mt-2">{activeDome.name}</h2>
+                    <div className="label text-orange">
+                      N° {activeDome.num} · {activeDome.type}
+                    </div>
+                    <h2 className="display text-bone text-6xl md:text-8xl mt-2">
+                      {activeDome.name}
+                    </h2>
                   </div>
                   <button
                     onClick={() => setActive(null)}
@@ -269,12 +214,14 @@ export default function Domes() {
                   </button>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-12">
-                  <div className="aspect-square text-bone/70">
-                    {(() => {
-                      const G = glyphs[activeDome.id];
-                      return <G />;
-                    })()}
+                <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+                  <div className="aspect-[4/5] overflow-hidden border hairline">
+                    <img
+                      src={activeDome.image2}
+                      alt={activeDome.name}
+                      className="w-full h-full object-cover"
+                      style={{ filter: 'grayscale(0.2) contrast(1.05) brightness(0.85)' }}
+                    />
                   </div>
 
                   <div>
