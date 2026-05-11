@@ -14,8 +14,8 @@ const domes = [
     height: '8.4 m',
     panels: 'Low-iron triple-glaze',
     capacity: '6 — 14 occupants',
-    image: 'https://images.unsplash.com/photo-1706464662649-5b075ef6e5af?w=1600&q=88&auto=format&fit=crop',
-    image2: 'https://images.unsplash.com/photo-1660313140427-aedb86597570?w=1600&q=88&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1741524915506-c009e15f55cc?w=1600&q=88&auto=format&fit=crop',
+    image2: 'https://images.unsplash.com/photo-1741524915248-d3a727ee6fce?w=1600&q=88&auto=format&fit=crop',
     summary:
       'A climate-controlled luxury habitat designed to integrate with a subterranean Bunker. The Atrium is a single-volume sanctuary — open plan beneath an unbroken glass sky, finished in solid stone, brass, and walnut. Sunlight by day, observatory by night.',
     inclusions: [
@@ -37,8 +37,8 @@ const domes = [
     height: '6.2 m',
     panels: 'ETFE inflated layer',
     capacity: '180-day food autonomy',
-    image: 'https://images.unsplash.com/photo-1637935068558-a1f39612620d?w=1600&q=88&auto=format&fit=crop',
-    image2: 'https://images.unsplash.com/photo-1660313096407-73b597e742e3?w=1600&q=88&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1774270906132-86218bf92158?w=1600&q=88&auto=format&fit=crop',
+    image2: 'https://images.unsplash.com/photo-1737256358813-cdbdc3d9c72a?w=1600&q=88&auto=format&fit=crop',
     summary:
       "A closed-loop hydroponic dome engineered to supply a household indefinitely. Verdant pairs with a Bunker's provisioning bay to extend autonomy from months to years. Year-round cultivation in any climate, automated and discreet.",
     inclusions: [
