@@ -1,30 +1,18 @@
 import { motion } from 'framer-motion';
 import Logo from './Logo';
-import SplitText from './SplitText';
 import Magnetic from './Magnetic';
 
 export default function Footer() {
+  const openConcierge = () => window.dispatchEvent(new CustomEvent('open-concierge'));
+
   return (
-    <footer id="contact" className="relative bg-ink text-bone overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-bone/15" />
+    <footer id="contact" className="relative bg-coal text-bone overflow-hidden border-t border-bone/10">
+      <div className="px-6 md:px-12 max-w-[1600px] mx-auto pt-16 md:pt-24 pb-10">
 
-      <div className="px-6 md:px-12 max-w-[1600px] mx-auto pt-24 md:pt-40 pb-12">
-        <div className="grid grid-cols-12 gap-6 mb-16 md:mb-24">
+        {/* CONTACT GRID */}
+        <div className="grid grid-cols-12 gap-6 md:gap-8 pb-12 md:pb-16 border-b border-bone/10">
           <div className="col-span-12 md:col-span-3">
-            <div className="label text-bone/40">N° 04 â Contact</div>
-            <div className="label text-bone/30 mt-2">â60.00m</div>
-          </div>
-          <div className="col-span-12 md:col-span-9">
-            <h2 className="display text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight">
-              <SplitText as="span" className="block">Begin your</SplitText>
-              <SplitText as="span" className="block italic text-bone/60" delay={0.15}>descent.</SplitText>
-            </h2>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-12 gap-6 mb-24 md:mb-32 border-t border-bone/15 pt-12">
-          <div className="col-span-12 md:col-span-3">
-            <div className="label text-bone/40 mb-3">Studio</div>
+            <div className="label text-orange mb-3">Studio</div>
             <address className="not-italic text-bone/80 leading-relaxed text-sm">
               Dubai International<br />
               Financial Centre<br />
@@ -32,8 +20,8 @@ export default function Footer() {
               Dubai, UAE
             </address>
           </div>
-          <div className="col-span-12 md:col-span-3">
-            <div className="label text-bone/40 mb-3">Direct</div>
+          <div className="col-span-6 md:col-span-3">
+            <div className="label text-orange mb-3">Direct</div>
             <a href="mailto:vault@minus1.studio" className="block text-bone link-underline mb-2 text-sm">
               vault@minus1.studio
             </a>
@@ -41,48 +29,56 @@ export default function Footer() {
               +971 4 000 0000
             </a>
           </div>
-          <div className="col-span-12 md:col-span-3">
-            <div className="label text-bone/40 mb-3">Discretion</div>
-            <p className="text-bone/80 leading-relaxed text-sm">
-              All correspondence is encrypted and held under signed NDA. Initial consultations are conducted in person at the client&apos;s location.
+          <div className="col-span-6 md:col-span-3">
+            <div className="label text-orange mb-3">Discretion</div>
+            <p className="text-bone/70 leading-relaxed text-xs md:text-sm">
+              All correspondence encrypted, held under signed NDA. Initial consultations on-site only.
             </p>
           </div>
           <div className="col-span-12 md:col-span-3">
-            <div className="label text-bone/40 mb-3">Clearance</div>
-            <p className="text-bone/80 leading-relaxed text-sm mb-4">
-              Engagement is by referral and qualification. Submit an enquiry to begin verification.
+            <div className="label text-orange mb-3">Begin</div>
+            <p className="text-bone/70 leading-relaxed text-xs md:text-sm mb-4">
+              Five questions. Direct line to a principal.
             </p>
-            <Magnetic strength={0.3}>
-              <a
-                href="mailto:vault@minus1.studio?subject=Enquiry"
-                data-cursor="SEND"
-                className="inline-block label bg-orange text-ink hover:bg-orange-bright transition-all px-5 py-3"
+            <Magnetic strength={0.25}>
+              <button
+                onClick={openConcierge}
+                className="label bg-orange text-ink hover:bg-orange-bright transition-all px-5 py-3 inline-flex items-center gap-3"
               >
-                Request Access
-              </a>
+                Concierge
+                <span>→</span>
+              </button>
             </Magnetic>
           </div>
         </div>
 
-        <div className="border-t border-bone/15 pt-12 mb-12">
-          <div className="display text-[18vw] md:text-[14vw] leading-[0.85] tracking-tighter text-bone/95 select-none">
-            MINUS&nbsp;1
-          </div>
+        {/* MASSIVE LOGOTYPE */}
+        <div className="py-12 md:py-16 overflow-hidden">
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="display text-[22vw] md:text-[16vw] leading-[0.8] tracking-tighter text-bone/95 select-none"
+          >
+            MINUS&nbsp;<span className="italic">1</span>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-12 gap-6 border-t border-bone/15 pt-6 label text-bone/40">
+        {/* BOTTOM BAR */}
+        <div className="grid grid-cols-12 gap-3 border-t border-bone/10 pt-6 label text-bone/40">
           <div className="col-span-6 md:col-span-3 flex items-center gap-3">
             <Logo className="w-5 h-5 text-orange" />
-            <span>MINUS 1 Â· MMXXVI</span>
+            <span>MINUS 1 · MMXXVI</span>
           </div>
           <div className="hidden md:block md:col-span-3">
             All rights reserved
           </div>
-          <div className="hidden md:block md:col-span-3">
-            25.2048° N Â· 55.2708° E
+          <div className="hidden md:block md:col-span-3 tabular-nums">
+            25.2048° N · 55.2708° E
           </div>
           <div className="col-span-6 md:col-span-3 text-right">
-            Site v.1.0 â Engineered in Dubai
+            Engineered in Dubai
           </div>
         </div>
       </div>

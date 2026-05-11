@@ -312,14 +312,16 @@ export default function Domes() {
                     </div>
 
                     <Magnetic strength={0.2}>
-                      <a
-                        href="#contact"
-                        onClick={() => setActive(null)}
+                      <button
+                        onClick={() => {
+                          setActive(null);
+                          window.dispatchEvent(new CustomEvent('open-concierge'));
+                        }}
                         className="inline-flex items-center justify-between w-full bg-orange text-ink px-5 py-4 hover:bg-orange-bright transition-colors"
                       >
                         <span className="label">Commission {activeDome.name}</span>
                         <span>→</span>
-                      </a>
+                      </button>
                     </Magnetic>
                   </div>
                 </div>

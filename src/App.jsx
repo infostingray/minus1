@@ -4,9 +4,12 @@ import Hero from './components/Hero';
 import Manifesto from './components/Manifesto';
 import Projects from './components/Projects';
 import Domes from './components/Domes';
+import Gallery from './components/Gallery';
 import Catalogue from './components/Catalogue';
+import Begin from './components/Begin';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
+import Concierge from './components/Concierge';
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
@@ -18,6 +21,7 @@ export default function App() {
   return (
     <>
       {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
+      <Concierge />
       <div className="relative bg-ink text-bone min-h-screen antialiased grain">
         <Navigation />
         <main>
@@ -25,7 +29,9 @@ export default function App() {
           <Manifesto />
           <Projects />
           <Domes />
+          <Gallery />
           <Catalogue />
+          <Begin />
         </main>
         <Footer />
       </div>

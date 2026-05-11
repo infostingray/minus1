@@ -297,9 +297,11 @@ export default function Projects() {
                     </ul>
                   </div>
 
-                  <a
-                    href="#contact"
-                    onClick={() => setActive(null)}
+                  <button
+                    onClick={() => {
+                      setActive(null);
+                      window.dispatchEvent(new CustomEvent('open-concierge'));
+                    }}
                     className="inline-flex items-center justify-between w-full bg-orange text-ink px-5 py-4 hover:bg-orange-bright transition-colors duration-300 group"
                   >
                     <span className="font-mono text-xs tracking-[0.22em] uppercase">Request {project.name}</span>
@@ -307,7 +309,7 @@ export default function Projects() {
                       <line x1="5" y1="19" x2="19" y2="5" />
                       <polyline points="9 5 19 5 19 15" />
                     </svg>
-                  </a>
+                  </button>
                 </div>
               </div>
             </motion.div>

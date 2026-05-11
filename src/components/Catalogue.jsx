@@ -39,7 +39,7 @@ export default function Catalogue() {
         {/* HEADER */}
         <div className="grid grid-cols-12 gap-4 mb-12 md:mb-20">
           <div className="col-span-12 md:col-span-3">
-            <div className="label text-ink/50"><span className="text-orange">N° 04</span> â Catalogue</div>
+            <div className="label text-ink/50"><span className="text-orange">N° 05</span> â Catalogue</div>
           </div>
           <div className="col-span-12 md:col-span-6">
             <h2 className="display text-4xl md:text-6xl leading-[0.95] tracking-tight">
@@ -171,9 +171,12 @@ export default function Catalogue() {
           </div>
           <div className="col-span-12 md:col-span-6 md:text-right">
             <Magnetic strength={0.2}>
-              <a href="#contact" className="label text-ink link-underline inline-block">
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('open-concierge'))}
+                className="label text-ink link-underline inline-block"
+              >
                 Request specification dossier →
-              </a>
+              </button>
             </Magnetic>
           </div>
         </div>

@@ -6,8 +6,9 @@ const navItems = [
   { num: '01', label: 'Manifesto', href: '#manifesto' },
   { num: '02', label: 'Bunkers', href: '#bunkers' },
   { num: '03', label: 'Domes', href: '#domes' },
-  { num: '04', label: 'Catalogue', href: '#catalogue' },
-  { num: '05', label: 'Contact', href: '#contact' },
+  { num: '04', label: 'Archive', href: '#gallery' },
+  { num: '05', label: 'Catalogue', href: '#catalogue' },
+  { num: '06', label: 'Contact', href: '#contact' },
 ]
 
 export default function Navigation() {
@@ -71,13 +72,22 @@ export default function Navigation() {
             ))}
           </nav>
 
-          <button onClick={() => setOpen(true)} className="group flex items-center gap-3 border border-bone/30 px-4 py-2.5 hover:bg-orange hover:text-ink hover:border-orange transition-all duration-300">
-            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <rect x="5" y="11" width="14" height="10" />
-              <path d="M8 11V7a4 4 0 1 1 8 0v4" />
-            </svg>
-            <span className="font-mono text-[11px] tracking-[0.22em] uppercase">Secure Access</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-concierge'))}
+              className="group hidden md:flex items-center gap-3 bg-orange text-ink px-4 py-2.5 hover:bg-orange-bright transition-all duration-300"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-ink animate-pulse" />
+              <span className="font-mono text-[11px] tracking-[0.22em] uppercase">Concierge</span>
+            </button>
+            <button onClick={() => setOpen(true)} className="group flex items-center gap-3 border border-bone/30 px-4 py-2.5 hover:bg-bone hover:text-ink hover:border-bone transition-all duration-300">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="5" y="11" width="14" height="10" />
+                <path d="M8 11V7a4 4 0 1 1 8 0v4" />
+              </svg>
+              <span className="font-mono text-[11px] tracking-[0.22em] uppercase">Menu</span>
+            </button>
+          </div>
         </div>
       </header>
 
