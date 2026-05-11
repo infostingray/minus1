@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import SplitText from './SplitText'
+import Magnetic from './Magnetic'
 
 const projects = [
   {
@@ -102,11 +104,11 @@ export default function Projects() {
 
         <div className="grid lg:grid-cols-12 gap-8 mb-16 md:mb-20">
           <div className="lg:col-span-7">
-            <p className="display text-bone text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
-              Three configurations.<br />
-              <span className="italic text-silver">From the single Vault</span><br />
-              to the generational Ark.
-            </p>
+            <h2 className="display text-bone text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
+              <SplitText as="span" className="block">Three configurations.</SplitText>
+              <SplitText as="span" className="block italic text-silver" delay={0.15}>From the single Vault</SplitText>
+              <SplitText as="span" className="block" delay={0.3}>to the generational Ark.</SplitText>
+            </h2>
           </div>
           <div className="lg:col-span-4 lg:col-start-9 self-end">
             <p className="text-pale text-[15px] leading-relaxed">
@@ -126,6 +128,7 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 1, delay: i * 0.15, ease: [0.65, 0, 0.35, 1] }}
+                data-cursor="OPEN"
                 className="group relative w-[88vw] md:w-[520px] lg:w-[560px] flex-shrink-0"
               >
                 <div className="relative aspect-[4/5] overflow-hidden bg-coal border hairline-strong">

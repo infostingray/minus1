@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import SplitText from './SplitText';
+import Magnetic from './Magnetic';
 
 const categories = [
   { id: 'all', label: 'All Systems', count: 12 },
@@ -287,7 +289,8 @@ export default function Catalogue() {
           </div>
           <div className="col-span-12 md:col-span-6">
             <h2 className="display text-5xl md:text-7xl leading-[0.95] tracking-tight">
-              The component<br />library.
+              <SplitText as="span" className="block">The component</SplitText>
+              <SplitText as="span" className="block italic" delay={0.15}>library.</SplitText>
             </h2>
             <p className="mt-8 text-ink/60 text-lg max-w-md leading-relaxed">
               Engineered systems, specified to the millimetre. Every MINUS 1 environment is composed from a single, audited inventory of subterranean infrastructure.
@@ -340,6 +343,8 @@ export default function Catalogue() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -4 }}
+                  data-cursor="VIEW SPEC"
                   className="group bg-bone p-8 md:p-10 hover:bg-chalk transition-colors cursor-pointer relative"
                 >
                   {/* Code label */}
@@ -369,9 +374,13 @@ export default function Catalogue() {
                     <span className="absolute bottom-0 right-0 w-3 h-px bg-ink/40" />
                     <span className="absolute bottom-0 right-0 w-px h-3 bg-ink/40" />
 
-                    <div className="absolute inset-6 text-ink/80 group-hover:text-ink transition-colors">
+                    <motion.div
+                      className="absolute inset-6 text-ink/80 group-hover:text-ink transition-colors"
+                      whileHover={{ rotate: 90 }}
+                      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                    >
                       {item.glyph}
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Title block */}

@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import Logo from './Logo';
+import SplitText from './SplitText';
+import Magnetic from './Magnetic';
 
 export default function Footer() {
   return (
@@ -13,15 +15,10 @@ export default function Footer() {
             <div className="label text-bone/30 mt-2">â60.00m</div>
           </div>
           <div className="col-span-12 md:col-span-9">
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="display text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight"
-            >
-              Begin your<br /><span className="italic text-bone/60">descent.</span>
-            </motion.h2>
+            <h2 className="display text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight">
+              <SplitText as="span" className="block">Begin your</SplitText>
+              <SplitText as="span" className="block italic text-bone/60" delay={0.15}>descent.</SplitText>
+            </h2>
           </div>
         </div>
 
@@ -55,12 +52,15 @@ export default function Footer() {
             <p className="text-bone/80 leading-relaxed text-sm mb-4">
               Engagement is by referral and qualification. Submit an enquiry to begin verification.
             </p>
-            <a
-              href="mailto:vault@minus1.studio?subject=Enquiry"
-              className="inline-block label bg-orange text-ink hover:bg-orange-bright transition-all px-5 py-3"
-            >
-              Request Access
-            </a>
+            <Magnetic strength={0.3}>
+              <a
+                href="mailto:vault@minus1.studio?subject=Enquiry"
+                data-cursor="SEND"
+                className="inline-block label bg-orange text-ink hover:bg-orange-bright transition-all px-5 py-3"
+              >
+                Request Access
+              </a>
+            </Magnetic>
           </div>
         </div>
 
