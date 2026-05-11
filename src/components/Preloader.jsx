@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 /* Same hero image — preloader is a glimpse of where you're descending into. */
 const PRELOAD_IMAGE =
-  'https://images.unsplash.com/photo-1754390755142-3b4b9ffbd1f3?w=2400&q=88&auto=format&fit=crop';
+  'https://images.unsplash.com/photo-1624664929067-5bc278a7c57e?w=2400&q=88&auto=format&fit=crop';
 
 export default function Preloader({ onComplete }) {
   const [stage, setStage] = useState(0);
