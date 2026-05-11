@@ -4,9 +4,9 @@ import Logo from './Logo'
 
 const navItems = [
   { num: '01', label: 'Manifesto', href: '#manifesto' },
-  { num: '02', label: 'Projects', href: '#projects' },
-  { num: '03', label: 'Catalogue', href: '#catalogue' },
-  { num: '04', label: 'Process', href: '#process' },
+  { num: '02', label: 'Bunkers', href: '#bunkers' },
+  { num: '03', label: 'Domes', href: '#domes' },
+  { num: '04', label: 'Catalogue', href: '#catalogue' },
   { num: '05', label: 'Contact', href: '#contact' },
 ]
 

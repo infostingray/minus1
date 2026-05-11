@@ -14,6 +14,7 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -29,35 +30,19 @@
     color: var(--color-ink);
   }
 
-  /* Hide native cursor on desktop where custom cursor is active */
-  @media (min-width: 768px) {
-    html, body, * {
-      cursor: none !important;
-    }
-  }
-
-  /* Scrollbar */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: #0F0F0F; }
   ::-webkit-scrollbar-thumb { background: #3A3A3A; }
   ::-webkit-scrollbar-thumb:hover { background: #FF6B1A; }
-
-  /* Lenis smooth scroll */
-  html.lenis, html.lenis body { height: auto; }
-  .lenis.lenis-smooth { scroll-behavior: auto !important; }
-  .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-  .lenis.lenis-stopped { overflow: hidden; }
-  .lenis.lenis-scrolling iframe { pointer-events: none; }
 }
 
 @layer components {
-  /* Grain texture overlay */
   .grain::before {
     content: '';
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-    opacity: 0.05;
+    opacity: 0.04;
     mix-blend-mode: overlay;
     pointer-events: none;
     z-index: 1;
@@ -93,10 +78,7 @@
     text-orientation: mixed;
   }
 
-  .link-underline {
-    position: relative;
-    display: inline-block;
-  }
+  .link-underline { position: relative; display: inline-block; }
   .link-underline::after {
     content: '';
     position: absolute;

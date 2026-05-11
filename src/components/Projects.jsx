@@ -95,10 +95,10 @@ export default function Projects() {
   const project = projects.find((p) => p.id === active)
 
   return (
-    <section id="projects" className="relative bg-ink border-t hairline py-24 md:py-32 grain">
+    <section id="bunkers" className="relative bg-ink border-t hairline py-24 md:py-32 grain">
       <div className="px-6 max-w-7xl mx-auto">
         <div className="flex items-baseline justify-between border-b hairline pb-6 mb-12">
-          <p className="label">N° 02 — Projects</p>
+          <p className="label text-bone/60"><span className="text-orange">N° 02</span> — Bunkers</p>
           <p className="label hidden md:block">Three Archetypes · One Standard</p>
         </div>
 
