@@ -174,7 +174,7 @@ export default function Projects() {
                   </div>
                   <button
                     onClick={() => setActive(p.id)}
-                    className="col-span-5 group/btn h-full min-h-[88px] flex flex-col items-end justify-between border hairline-strong p-4 hover:bg-bone hover:text-ink transition-colors duration-300"
+                    className="col-span-5 group/btn h-full min-h-[88px] flex flex-col items-end justify-between border border-bone/30 p-4 hover:bg-orange hover:text-ink hover:border-orange transition-all duration-300"
                   >
                     <span className="self-start label group-hover/btn:text-ink transition-colors">View Details</span>
                     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1">
@@ -297,7 +297,7 @@ export default function Projects() {
                   <a
                     href="#contact"
                     onClick={() => setActive(null)}
-                    className="inline-flex items-center justify-between w-full border hairline-strong px-5 py-4 hover:bg-bone hover:text-ink transition-colors duration-300 group"
+                    className="inline-flex items-center justify-between w-full bg-orange text-ink px-5 py-4 hover:bg-orange-bright transition-colors duration-300 group"
                   >
                     <span className="font-mono text-xs tracking-[0.22em] uppercase">Request {project.name}</span>
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1">

@@ -309,13 +309,13 @@ export default function Catalogue() {
                   key={c.id}
                   onClick={() => setActive(c.id)}
                   className={`relative label px-4 py-2.5 transition-colors ${
-                    isActive ? 'text-bone' : 'text-ink/60 hover:text-ink'
+                    isActive ? 'text-ink' : 'text-ink/60 hover:text-ink'
                   }`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="filter-pill"
-                      className="absolute inset-0 bg-ink"
+                      className="absolute inset-0 bg-orange"
                       transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                     />
                   )}
@@ -344,7 +344,7 @@ export default function Catalogue() {
                 >
                   {/* Code label */}
                   <div className="flex items-start justify-between mb-6">
-                    <div className="label text-ink/40">{item.code}</div>
+                    <div className="label text-orange">{item.code}</div>
                     <div className="label text-ink/40 uppercase">{item.category.replace('-', ' ')}</div>
                   </div>
 
@@ -387,7 +387,7 @@ export default function Catalogue() {
                       <div className="text-ink/80 text-xs leading-snug max-w-[180px]">{item.spec}</div>
                     </div>
                     <div className="text-right">
-                      <div className="display text-2xl leading-none">{item.metric}</div>
+                      <div className="display text-2xl leading-none text-orange">{item.metric}</div>
                       <div className="label text-ink/40 mt-1">{item.metricLabel}</div>
                     </div>
                   </div>

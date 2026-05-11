@@ -45,13 +45,13 @@ export default function Navigation() {
       <div className="fixed top-0 left-0 right-0 z-40 hidden md:flex items-center justify-between px-6 py-2 border-b hairline bg-ink/80 backdrop-blur-md">
         <div className="flex items-center gap-6 label">
           <span className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-bone animate-ticker" />
-            Operational
+            <span className="h-1.5 w-1.5 rounded-full bg-orange animate-pulse" />
+            <span className="text-orange">Operational</span>
           </span>
           <span>25.2048 N / 55.2708 E</span>
         </div>
         <div className="flex items-center gap-6 label">
-          <span>Depth Index <span className="text-bone">-15.00m</span></span>
+          <span>Depth Index <span className="text-orange">-15.00m</span></span>
           <span className="tabular-nums">{time}</span>
         </div>
       </div>
@@ -71,7 +71,7 @@ export default function Navigation() {
             ))}
           </nav>
 
-          <button onClick={() => setOpen(true)} className="group flex items-center gap-3 border hairline-strong px-4 py-2.5 hover:bg-bone hover:text-ink transition-colors duration-300">
+          <button onClick={() => setOpen(true)} className="group flex items-center gap-3 border border-bone/30 px-4 py-2.5 hover:bg-orange hover:text-ink hover:border-orange transition-all duration-300">
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5">
               <rect x="5" y="11" width="14" height="10" />
               <path d="M8 11V7a4 4 0 1 1 8 0v4" />

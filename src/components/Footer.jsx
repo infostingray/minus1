@@ -57,7 +57,7 @@ export default function Footer() {
             </p>
             <a
               href="mailto:vault@minus1.studio?subject=Enquiry"
-              className="inline-block label border border-bone/40 hover:border-bone hover:bg-bone hover:text-ink transition-all px-5 py-3"
+              className="inline-block label bg-orange text-ink hover:bg-orange-bright transition-all px-5 py-3"
             >
               Request Access
             </a>
@@ -72,7 +72,7 @@ export default function Footer() {
 
         <div className="grid grid-cols-12 gap-6 border-t border-bone/15 pt-6 label text-bone/40">
           <div className="col-span-6 md:col-span-3 flex items-center gap-3">
-            <Logo className="w-5 h-5 text-bone/60" />
+            <Logo className="w-5 h-5 text-orange" />
             <span>MINUS 1 Â· MMXXVI</span>
           </div>
           <div className="hidden md:block md:col-span-3">

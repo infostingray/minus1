@@ -87,8 +87,9 @@ export default function Manifesto() {
             { v: '72h', l: 'Rapid deployment, fully containerized' },
             { v: 'N° 1', l: 'Luxury-positioned in category' },
           ].map((s, i) => (
-            <div key={i} className="bg-ink p-8 md:p-10">
-              <p className="display text-bone text-5xl md:text-6xl mb-3">{s.v}</p>
+            <div key={i} className="bg-ink p-8 md:p-10 group hover:bg-coal transition-colors relative">
+              <span className="absolute top-0 left-0 h-px w-12 bg-orange" />
+              <p className={`display text-5xl md:text-6xl mb-3 ${i === 0 ? 'text-orange' : 'text-bone'}`}>{s.v}</p>
               <p className="text-silver text-xs leading-relaxed max-w-[18ch]">{s.l}</p>
             </div>
           ))}

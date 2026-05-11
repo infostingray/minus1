@@ -1,159 +1,376 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useEffect, useState, Suspense } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import * as THREE from 'three';
 
-const stagger = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.2 } },
-}
+/* ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   3D Scene â stratified earth + cross-sectioned bunker module
+   ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 
-const lineUp = {
-  hidden: { y: '110%' },
-  show: { y: '0%', transition: { duration: 1.1, ease: [0.65, 0, 0.35, 1] } },
-}
+function Strata({ mouseRef }) {
+  const groupRef = useRef();
 
-const fadeUp = {
-  hidden: { y: 24, opacity: 0 },
-  show: { y: 0, opacity: 1, transition: { duration: 1, ease: [0.65, 0, 0.35, 1] } },
-}
+  useFrame((state, delta) => {
+    if (!groupRef.current) return;
+    // gentle continuous rotation
+    groupRef.current.rotation.y += delta * 0.06;
+    // mouse parallax with lerp
+    const tx = (mouseRef.current.y) * 0.15;
+    const ty = (mouseRef.current.x) * 0.25;
+    groupRef.current.rotation.x += (tx - groupRef.current.rotation.x) * 0.04;
+    const baseY = -Math.PI / 12;
+    const targetY = baseY + ty;
+    // we offset around current; merge gently
+    // (keeping rotation.y advancing too â additive feel)
+  });
 
-export default function Hero() {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '40%'])
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  // 6 strata layers stacked vertically
+  const layers = [
+    { y: 3.2, h: 0.35, opacity: 0.06 },
+    { y: 2.4, h: 0.5,  opacity: 0.08 },
+    { y: 1.4, h: 0.6,  opacity: 0.10 },
+    { y: 0.2, h: 0.7,  opacity: 0.12 },
+    { y: -1.0, h: 0.55, opacity: 0.10 },
+    { y: -2.0, h: 0.45, opacity: 0.08 },
+  ];
 
   return (
-    <section id="top" ref={ref} className="relative h-[100svh] min-h-[720px] w-full overflow-hidden bg-ink grain">
-      {/* Blueprint backdrop layer */}
-      <motion.div
-        className="absolute inset-0 blueprint-grid opacity-60"
-        style={{ y, scale }}
-      />
+    <group ref={groupRef} rotation={[0, -Math.PI / 12, 0]}>
+      {/* earth strata */}
+      {layers.map((l, i) => (
+        <group key={i} position={[0, l.y, 0]}>
+          {/* solid panel */}
+          <mesh>
+            <boxGeometry args={[14, l.h, 7]} />
+            <meshBasicMaterial color="#8E8E93" transparent opacity={l.opacity} />
+          </mesh>
+          {/* wireframe */}
+          <lineSegments>
+            <edgesGeometry args={[new THREE.BoxGeometry(14, l.h, 7)]} />
+            <lineBasicMaterial color="#8E8E93" transparent opacity={0.4} />
+          </lineSegments>
+        </group>
+      ))}
 
-      {/* Background image as faint silhouette */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ y, scale }}
-      >
-        <img
-          src="/images/installation-trench.jpg"
-          alt=""
-          className="h-full w-full object-cover grayscale opacity-25"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/60 to-ink" />
-      </motion.div>
+      {/* SURFACE LINE â orange */}
+      <group position={[0, 3.6, 0]}>
+        <lineSegments>
+          <edgesGeometry args={[new THREE.BoxGeometry(14.4, 0.02, 7.4)]} />
+          <lineBasicMaterial color="#FF6B1A" transparent opacity={0.9} />
+        </lineSegments>
+      </group>
 
-      {/* Content */}
-      <motion.div
-        className="relative z-10 h-full flex flex-col justify-between px-6 pt-32 pb-12 md:pt-36"
-        style={{ opacity }}
-        variants={stagger}
-        initial="hidden"
-        animate="show"
-      >
-        {/* Top metadata row */}
-        <motion.div className="flex items-start justify-between" variants={fadeUp}>
-          <div className="max-w-xs">
-            <p className="label mb-3">— Filed Under</p>
-            <p className="font-mono text-sm text-pale leading-relaxed">
-              Subterranean Infrastructure / Private Continuity / Architectural Concealment
-            </p>
-          </div>
-          <div className="hidden md:block text-right">
-            <p className="label mb-3">— Edition</p>
-            <p className="font-mono text-sm text-pale">N° 001 · MMXXVI</p>
-          </div>
-        </motion.div>
+      {/* BUNKER MODULE â horizontal cylinder cross-section */}
+      <group position={[0, -3.3, 0]} rotation={[0, 0, Math.PI / 2]}>
+        {/* outer shell wireframe */}
+        <mesh>
+          <cylinderGeometry args={[1.45, 1.45, 6.5, 32, 1, false]} />
+          <meshBasicMaterial color="#1A1A1A" transparent opacity={0.7} />
+        </mesh>
+        <lineSegments>
+          <edgesGeometry args={[new THREE.CylinderGeometry(1.45, 1.45, 6.5, 32, 1, false)]} />
+          <lineBasicMaterial color="#B5B5B8" transparent opacity={0.85} />
+        </lineSegments>
 
-        {/* Massive display title */}
-        <div className="text-center -my-8 md:-my-12">
-          <div className="overflow-hidden">
-            <motion.h1
-              variants={lineUp}
-              className="display text-bone text-[26vw] md:text-[22vw] lg:text-[20vw] leading-[0.82]"
-            >
-              MINUS
-            </motion.h1>
-          </div>
+        {/* inner hollow indicator */}
+        <lineSegments>
+          <edgesGeometry args={[new THREE.CylinderGeometry(1.2, 1.2, 6.6, 32, 1, true)]} />
+          <lineBasicMaterial color="#8E8E93" transparent opacity={0.4} />
+        </lineSegments>
 
-          {/* Hairline + 1 + hairline */}
-          <motion.div
-            className="flex items-center justify-center gap-6 md:gap-10 my-2 md:my-4"
-            variants={fadeUp}
+        {/* structural rib bands â orange accent */}
+        {[-2.2, -0.7, 0.8, 2.2].map((z, i) => (
+          <mesh key={i} position={[0, z, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[1.48, 0.04, 8, 48]} />
+            <meshBasicMaterial color="#FF6B1A" transparent opacity={0.9} />
+          </mesh>
+        ))}
+
+        {/* end caps â accent edges */}
+        {[-3.25, 3.25].map((z, i) => (
+          <mesh key={i} position={[0, z, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[1.2, 1.45, 32]} />
+            <meshBasicMaterial color="#FF6B1A" transparent opacity={0.5} side={THREE.DoubleSide} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* VERTICAL ACCESS SHAFT â surface to module */}
+      <group position={[1.6, 0, 0]}>
+        <mesh>
+          <cylinderGeometry args={[0.18, 0.18, 6.6, 12, 1, true]} />
+          <meshBasicMaterial color="#8E8E93" transparent opacity={0.3} wireframe />
+        </mesh>
+        <lineSegments>
+          <edgesGeometry args={[new THREE.CylinderGeometry(0.18, 0.18, 6.6, 12, 1, false)]} />
+          <lineBasicMaterial color="#B5B5B8" transparent opacity={0.6} />
+        </lineSegments>
+      </group>
+
+      {/* HATCH on top of access shaft */}
+      <group position={[1.6, 3.55, 0]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[0.18, 0.32, 24]} />
+          <meshBasicMaterial color="#FF6B1A" transparent opacity={0.9} side={THREE.DoubleSide} />
+        </mesh>
+      </group>
+
+      {/* DEPTH MARKER GUIDES â thin vertical lines at edges */}
+      {[-6.5, 6.5].map((x, i) => (
+        <group key={i}>
+          <lineSegments>
+            <bufferGeometry>
+              <bufferAttribute
+                attach="attributes-position"
+                count={2}
+                array={new Float32Array([x, 3.6, 3.5, x, -3.3, 3.5])}
+                itemSize={3}
+              />
+            </bufferGeometry>
+            <lineBasicMaterial color="#FF6B1A" transparent opacity={0.4} />
+          </lineSegments>
+        </group>
+      ))}
+    </group>
+  );
+}
+
+function CameraRig({ scrollProgress }) {
+  const { camera } = useThree();
+  useFrame(() => {
+    // dolly forward + downward as user scrolls
+    const p = Math.min(scrollProgress.current, 1);
+    camera.position.y = -p * 2.5;
+    camera.position.z = 11 - p * 1.5;
+    camera.lookAt(0, -p * 1.5, 0);
+  });
+  return null;
+}
+
+function Scene({ mouseRef, scrollProgress }) {
+  return (
+    <>
+      <color attach="background" args={['#1A1A1A']} />
+      <fog attach="fog" args={['#1A1A1A', 9, 22]} />
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[6, 8, 5]} intensity={0.6} color="#E8E8E5" />
+      <pointLight position={[-3, -4, 4]} intensity={0.3} color="#FF6B1A" />
+      <Strata mouseRef={mouseRef} />
+      <CameraRig scrollProgress={scrollProgress} />
+    </>
+  );
+}
+
+/* ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   Hero â overlay + canvas
+   ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+
+export default function Hero() {
+  const containerRef = useRef(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const scrollProgress = useRef(0);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start'],
+  });
+
+  // expose scroll to imperative canvas loop
+  useEffect(() => {
+    return scrollYProgress.on('change', (v) => {
+      scrollProgress.current = v;
+    });
+  }, [scrollYProgress]);
+
+  const overlayY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  useEffect(() => {
+    const handle = (e) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseRef.current.y = (e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    window.addEventListener('mousemove', handle);
+    return () => window.removeEventListener('mousemove', handle);
+  }, []);
+
+  const [time, setTime] = useState('');
+  useEffect(() => {
+    const tick = () => {
+      const d = new Date();
+      const t = d.toISOString().substring(11, 19);
+      setTime(t);
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <section ref={containerRef} className="relative min-h-[110vh] bg-ink overflow-hidden">
+      {/* THREE.JS CANVAS BACKGROUND */}
+      <div className="absolute inset-0 z-0">
+        <Suspense fallback={null}>
+          <Canvas
+            camera={{ position: [0, 0, 11], fov: 38 }}
+            dpr={[1, 2]}
+            gl={{ antialias: true, alpha: false }}
           >
-            <span className="h-px flex-1 max-w-[18vw] bg-bone/30" />
-            <span className="display italic text-bone text-[14vw] md:text-[10vw] leading-none">
-              1
-            </span>
-            <span className="h-px flex-1 max-w-[18vw] bg-bone/30" />
-          </motion.div>
+            <Scene mouseRef={mouseRef} scrollProgress={scrollProgress} />
+          </Canvas>
+        </Suspense>
+      </div>
 
-          <div className="overflow-hidden">
-            <motion.p
-              variants={lineUp}
-              className="font-mono text-[11px] md:text-xs tracking-[0.5em] uppercase text-silver"
-            >
-              A New Layer of Living
-            </motion.p>
+      {/* SCAN LINE â subtle vertical sweep */}
+      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+        <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange/40 to-transparent animate-scan" />
+      </div>
+
+      {/* DARKENING VIGNETTE */}
+      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-ink/30 via-transparent to-ink/80" />
+
+      {/* CONTENT OVERLAY */}
+      <motion.div
+        style={{ y: overlayY, opacity: overlayOpacity }}
+        className="relative z-20 min-h-screen flex flex-col"
+      >
+        {/* Top metadata strip */}
+        <div className="px-6 md:px-12 pt-32 md:pt-36 grid grid-cols-12 gap-6">
+          <div className="col-span-6 md:col-span-3 label text-bone/50">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-orange rounded-full animate-pulse-slow" />
+              <span>SYS Â· LIVE</span>
+            </div>
+            <div className="mt-2 text-bone/30">{time} UTC</div>
+          </div>
+          <div className="hidden md:block md:col-span-3 label text-bone/50">
+            <div className="text-bone/30">SECTION</div>
+            <div className="mt-2">N° 01 / Genesis</div>
+          </div>
+          <div className="hidden md:block md:col-span-3 label text-bone/50">
+            <div className="text-bone/30">PROJECT</div>
+            <div className="mt-2">MNS-1 / ARCHIVE</div>
+          </div>
+          <div className="col-span-6 md:col-span-3 label text-bone/50 md:text-right">
+            <div className="text-bone/30">COORDINATES</div>
+            <div className="mt-2">25.2048° N Â· 55.2708° E</div>
           </div>
         </div>
 
-        {/* Bottom row */}
-        <motion.div className="grid grid-cols-2 md:grid-cols-12 gap-6 md:gap-10 items-end" variants={fadeUp}>
-          <div className="col-span-2 md:col-span-4">
-            <p className="label mb-3">— Synopsis</p>
-            <p className="text-pale text-sm md:text-base leading-relaxed max-w-sm">
-              Private underground environments engineered for continuity, privacy, and control. Not a shelter. A new standard of subterranean living for the world's most discerning individuals.
-            </p>
-          </div>
+        {/* Center wordmark */}
+        <div className="flex-1 flex items-center px-6 md:px-12">
+          <div className="w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="label text-orange mb-6 flex items-center gap-3"
+            >
+              <span className="w-8 h-px bg-orange" />
+              <span>A NEW LAYER OF LIVING</span>
+            </motion.div>
 
-          {/* Center: depth indicator */}
-          <div className="hidden md:flex md:col-span-4 flex-col items-center">
-            <p className="label mb-3">Descend</p>
-            <div className="flex flex-col items-center gap-2">
-              <span className="font-mono text-xs text-silver">scroll</span>
+            <h1 className="display leading-[0.85] tracking-tighter">
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="text-[20vw] md:text-[16vw] lg:text-[14vw] text-bone block"
+              >
+                MINUS
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                className="text-[20vw] md:text-[16vw] lg:text-[14vw] text-bone block italic -mt-[3vw]"
+              >
+                <span className="inline-flex items-baseline gap-[2vw]">
+                  <span className="w-[8vw] h-[0.8vw] bg-orange inline-block translate-y-[-3vw]" />
+                  1
+                </span>
+              </motion.div>
+            </h1>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-12 grid grid-cols-12 gap-6"
+            >
+              <div className="col-span-12 md:col-span-5 md:col-start-7">
+                <p className="text-bone/80 text-lg md:text-xl leading-relaxed max-w-md">
+                  Subterranean residences engineered to military specification, finished to the standard of a private gallery. Built for the era of consequence.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a
+                    href="#projects"
+                    className="label bg-orange text-ink px-5 py-3 hover:bg-orange-bright transition-colors"
+                  >
+                    Explore Archetypes â
+                  </a>
+                  <a
+                    href="#contact"
+                    className="label border border-bone/30 text-bone px-5 py-3 hover:border-bone hover:bg-bone hover:text-ink transition-all"
+                  >
+                    Request Access
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Bottom indicator + depth */}
+        <div className="px-6 md:px-12 pb-10 grid grid-cols-12 gap-6 items-end">
+          <div className="col-span-6 md:col-span-3 label text-bone/50">
+            <div className="text-bone/30">SCROLL Â· DESCEND</div>
+            <div className="mt-2 flex items-center gap-2">
               <motion.span
-                className="block w-px h-12 bg-bone/40 origin-top"
-                animate={{ scaleY: [0.2, 1, 0.2] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              <span className="font-mono text-xs text-silver tabular-nums">−15.00m</span>
+                animate={{ y: [0, 6, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                className="inline-block"
+              >
+                ↓
+              </motion.span>
+              <span>â15.00m</span>
             </div>
           </div>
-
-          <div className="col-span-2 md:col-span-4 md:text-right">
-            <p className="label mb-3">— Origin</p>
-            <p className="font-mono text-sm text-pale leading-relaxed">
-              Engineered in the GCC<br/>
-              Delivered Globally
-            </p>
+          <div className="hidden md:block md:col-span-6 text-center">
+            <div className="label text-bone/30 mb-2">CROSS-SECTION Â· LIVE RENDER</div>
+            <div className="h-px w-24 bg-bone/15 mx-auto" />
           </div>
-        </motion.div>
+          <div className="col-span-6 md:col-span-3 label text-bone/50 md:text-right">
+            <div className="text-bone/30">TIER</div>
+            <div className="mt-2">CLEARANCE I â III</div>
+          </div>
+        </div>
       </motion.div>
 
-      {/* Bottom marquee */}
-      <div className="absolute bottom-0 left-0 right-0 border-t hairline overflow-hidden bg-ink/60 backdrop-blur-sm z-10">
+      {/* BOTTOM MARQUEE */}
+      <div className="absolute bottom-0 left-0 right-0 z-30 border-t border-bone/10 bg-coal/90 backdrop-blur-sm overflow-hidden">
         <div className="flex animate-marquee whitespace-nowrap py-3">
-          {Array.from({ length: 2 }).map((_, k) => (
-            <div key={k} className="flex items-center gap-8 px-4 label">
-              <span>● Vault Series Available</span>
-              <span>— Modular Citadel Compounds</span>
-              <span>— Bespoke Ark Complexes</span>
-              <span>— NBC-Grade Filtration</span>
-              <span>— 72hr Rapid Deployment</span>
-              <span>— Blast Resistance 1MPa</span>
-              <span>● Filed N° 001 / MMXXVI</span>
-              <span>— Vault Series Available</span>
-              <span>— Modular Citadel Compounds</span>
-              <span>— Bespoke Ark Complexes</span>
-              <span>— NBC-Grade Filtration</span>
-              <span>— 72hr Rapid Deployment</span>
-              <span>— Blast Resistance 1MPa</span>
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div key={i} className="flex shrink-0">
+              {[
+                'NBC AIR FILTRATION Â· VA-40',
+                'BLAST-RATED Â· AR500 STEEL',
+                'AUTONOMY Â· 180 DAYS',
+                'OVERPRESSURE Â· 50 kPa',
+                'DEPTH Â· 15 â 60 m',
+                'BIOMETRIC Â· 4FA',
+                'POWER Â· OFF-GRID',
+                'SIGNATURE Â· BESPOKE',
+              ].map((t, j) => (
+                <span key={j} className="label text-bone/50 mx-8 flex items-center gap-3">
+                  <span className="w-1 h-1 bg-orange rounded-full" />
+                  {t}
+                </span>
+              ))}
             </div>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }
