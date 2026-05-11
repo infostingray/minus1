@@ -35,30 +35,40 @@ import {
    Cyber-brutalist luxury · Bunkers + Domes · GCC positioning.
    ════════════════════════════════════════════════════════════════════ */
 
-/* ─────────────────── CINEMATIC IMAGERY ─────────────────── */
+/* ─────────────────── CINEMATIC IMAGERY ───────────────────
+   Brand images extracted directly from MINUS-1-BUNKERS.pdf
+   (served from /public/brand/). Unsplash used only for fills
+   where no brand image exists — each has a gradient fallback. */
 const IMG = {
-  domesHero: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&w=2000&q=85",
-  domesAlt: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=2000&q=85",
-  bunkersHero: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=2000&q=85",
-  bunkersAlt: "https://images.unsplash.com/photo-1545158539-1709a01b9d2c?auto=format&fit=crop&w=2000&q=85",
+  // HERO + KEY SECTIONS — official brand visuals
+  domesHero: "/brand/concept.jpg",          // glass home in excavated mountain (surface, sunset)
+  domesAlt: "/brand/concept.jpg",           // DOMES showcase — brand image of surface architecture
+  bunkersHero: "/brand/corridor.jpg",       // octagonal sci-fi vault corridor — brand signature
+  bunkersAlt: "/brand/cross-section.jpg",   // architectural cross-section (excavation + interior)
   bunkersInterior: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=85",
-  bunkersConcrete: "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?auto=format&fit=crop&w=2000&q=85",
-  thesisImage: "https://images.unsplash.com/photo-1564013434775-f71db0030976?auto=format&fit=crop&w=1800&q=85",
-  statsImage: "https://images.unsplash.com/photo-1551038247-3d9af20df552?auto=format&fit=crop&w=1400&q=85",
-  capabilitiesHero: "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=2400&q=85",
+  bunkersConcrete: "https://images.unsplash.com/photo-1545158539-1709a01b9d2c?auto=format&fit=crop&w=2000&q=85",
+
+  // EDITORIAL — brand visuals where possible
+  thesisImage: "/brand/cave-vault.jpg",     // cave-vault threshold for "two layers, one address"
+  statsImage: "/brand/world-map.jpg",       // glowing world map — global demand
+  capabilitiesHero: "/brand/cross-section.jpg", // engineering cross-section
   capabilitiesAccent: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=85",
-  pullQuote: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=2400&q=85",
-  gcc: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=2200&q=85",
+  gcc: "/brand/dubai.jpg",                  // Dubai skyline at night — brand image
   ctaBg: "https://images.unsplash.com/photo-1574691250077-03a929faece5?auto=format&fit=crop&w=2400&q=85",
+
+  // TIERS — Unsplash luxury interiors (no brand-specific tier images exist)
   tier1: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85",
   tier2: "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1600&q=85",
   tier3: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85",
-  proc1: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+
+  // PROCESS — mix of brand + Unsplash for phase variety
+  proc1: "/brand/concept.jpg",              // consultation — architectural reference
   proc2: "https://images.unsplash.com/photo-1581094271901-8022df4466f9?auto=format&fit=crop&w=1200&q=80",
-  proc3: "https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&w=1200&q=80",
+  proc3: "/brand/cross-section.jpg",        // engineering — brand cross-section
   proc4: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
   proc5: "https://images.unsplash.com/photo-1493244040629-496f6d136e80?auto=format&fit=crop&w=1200&q=80",
-  preloader: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=2000&q=85",
+
+  preloader: "/brand/corridor.jpg",         // octagonal corridor as preloader backdrop
 };
 
 /* ─────────────────── GLOBAL CSS ─────────────────── */
@@ -638,22 +648,28 @@ function Hero({ scrollY }) {
   );
 }
 
-/* ═══════════════════ MARQUEE — refined ═══════════════════ */
+/* ═══════════════════ MARQUEE — brand language ═══════════════════ */
 
 function Marquee() {
   const Row = () => (
     <div className="marquee-row">
       <span className="marquee-word">MINUS 1</span>
       <span className="marquee-rule" />
-      <span className="marquee-word">BUNKERS</span>
+      <span className="marquee-word accent">A new layer of living</span>
       <span className="marquee-divider" />
-      <span className="marquee-word accent">domes</span>
+      <span className="marquee-word">CONTINUITY</span>
+      <span className="marquee-divider" />
+      <span className="marquee-word">PRIVACY</span>
+      <span className="marquee-divider" />
+      <span className="marquee-word">CONTROL</span>
       <span className="marquee-rule" />
-      <span className="marquee-word">CONFIDENTIAL</span>
+      <span className="marquee-word">BUNKERS · DOMES</span>
       <span className="marquee-divider" />
+      <span className="marquee-word accent">Beyond security</span>
+      <span className="marquee-rule" />
       <span className="marquee-word">GCC</span>
-      <span className="marquee-rule" />
-      <span className="marquee-word accent">by appointment</span>
+      <span className="marquee-divider" />
+      <span className="marquee-word accent">By appointment</span>
       <span className="marquee-divider" />
     </div>
   );
@@ -1047,31 +1063,6 @@ function Process() {
         <div style={{ padding: "20px 32px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Label color="var(--ash)">SCROLL HORIZONTALLY</Label>
           <Label color="var(--ash)">↔</Label>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════ STATEMENT ═══════════════════ */
-
-function Statement() {
-  return (
-    <section className="grain hair-b" style={{ position: "relative", background: "var(--carbon)", padding: "180px 0", overflow: "hidden" }}>
-      <div className="bg-img" style={{ backgroundImage: `url(${IMG.pullQuote}), linear-gradient(180deg, #0a0a0a, #050505)`, filter: "grayscale(60%) contrast(1.1) brightness(0.3)", opacity: 0.55 }} />
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(10,10,10,0.7), rgba(10,10,10,0.4) 50%, rgba(10,10,10,0.95))" }} />
-      <div className="mx-auto" style={{ position: "relative", zIndex: 2, maxWidth: 1100, padding: "0 32px" }}>
-        <div className="flex items-center" style={{ gap: 14, marginBottom: 32 }}>
-          <span style={{ width: 40, height: 1, background: "var(--gold)", display: "block" }} />
-          <Label color="var(--gold)">STATEMENT</Label>
-        </div>
-        <h3 className="f-display" style={{ fontSize: "clamp(2rem, 5.4vw, 4.6rem)", lineHeight: 1.05, color: "var(--bone)" }}>
-          “Integrate ultimate protection into the architectural fabric. When the world becomes uncertain,{" "}
-          <span style={{ color: "var(--gold)", fontStyle: "italic", fontWeight: 600 }}>home becomes a continent.</span>”
-        </h3>
-        <div className="flex flex-wrap justify-between items-center hair-t" style={{ gap: 16, marginTop: 64, paddingTop: 24 }}>
-          <Label>— MINUS 1 · POSITION §02</Label>
-          <Label color="var(--bone-dim)">EST. 2025 · GLOBAL</Label>
         </div>
       </div>
     </section>
@@ -1669,7 +1660,6 @@ export default function Minus1() {
       <Stats />
       <Tiers />
       <Process />
-      <Statement />
       <Capabilities />
       <Region />
       <CTA />
