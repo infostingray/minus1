@@ -22,9 +22,6 @@ import {
   Zap,
   Eye,
   X,
-  Sun,
-  Hexagon,
-  Globe,
   Send,
   Sparkles,
 } from "lucide-react";
@@ -37,41 +34,31 @@ import {
 
 /* ─────────────────── CINEMATIC IMAGERY ───────────────────
    Brand images extracted directly from MINUS-1-BUNKERS.pdf
-   (served from /public/brand/). The corridor render was too
-   sci-fi — removed in favour of architectural construction shots
-   that show what MINUS 1 actually designs and delivers. */
+   (served from /public/brand/). Restraint is the product — only
+   the imagery that earns its place stays. */
 const IMG = {
-  // PRIMARY HERO — glass-walled bunker being built in excavated mountain
-  hero: "/brand/concept.jpg",
+  // HERO
+  hero: "/brand/concept.jpg",                 // glass-walled bunker being built in excavated mountain
 
-  // BUNKERS / ARCHITECTURE SHOWCASE
-  bunkersHero: "/brand/cave-vault.jpg",      // atmospheric vault-door entry into rock
-  bunkersAlt: "/brand/cross-section.jpg",    // architectural cross-section as backdrop
-  bunkersMain: "/brand/concept.jpg",         // the build scene — design + construction
+  // BUNKERS SHOWCASE — atmospheric vault + two inset images
+  bunkersHero: "/brand/cave-vault.jpg",       // cave entrance to steel vault door
+  bunkersAlt: "/brand/cross-section.jpg",     // architectural cross-section as backdrop
   bunkersInterior: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=85",
   bunkersConcrete: "https://images.unsplash.com/photo-1545158539-1709a01b9d2c?auto=format&fit=crop&w=2000&q=85",
 
-  // EDITORIAL
-  thesisImage: "/brand/cave-vault.jpg",      // cave-vault threshold for "a new layer"
-  statsImage: "/brand/world-map.jpg",        // glowing world map — global demand
-  capabilitiesHero: "/brand/cross-section.jpg", // engineering cross-section
-  capabilitiesAccent: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=85",
-  gcc: "/brand/dubai.jpg",                   // Dubai skyline — GCC focus
-  ctaBg: "https://images.unsplash.com/photo-1574691250077-03a929faece5?auto=format&fit=crop&w=2400&q=85",
+  // THESIS
+  thesisImage: "/brand/cave-vault.jpg",
 
-  // TIERS — Unsplash luxury interiors
+  // TIERS — three Unsplash interiors
   tier1: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85",
   tier2: "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1600&q=85",
   tier3: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85",
 
-  // PROCESS — mix of brand + Unsplash for phase variety
-  proc1: "/brand/concept.jpg",
-  proc2: "https://images.unsplash.com/photo-1581094271901-8022df4466f9?auto=format&fit=crop&w=1200&q=80",
-  proc3: "/brand/cross-section.jpg",
-  proc4: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
-  proc5: "https://images.unsplash.com/photo-1493244040629-496f6d136e80?auto=format&fit=crop&w=1200&q=80",
+  // CTA backdrop
+  ctaBg: "https://images.unsplash.com/photo-1574691250077-03a929faece5?auto=format&fit=crop&w=2400&q=85",
 
-  preloader: "/brand/cross-section.jpg",     // architectural backdrop (no more spaceship)
+  // PRELOADER
+  preloader: "/brand/cross-section.jpg",
 };
 
 /* ─────────────────── GLOBAL CSS ─────────────────── */
@@ -593,7 +580,7 @@ function Nav({ scrollY }) {
           <Label>SUBTERRANEAN INFRASTRUCTURE</Label>
         </a>
         <nav className="hidden md:flex items-center" style={{ gap: 30 }}>
-          {[["bunkers", "01 — Bunkers"], ["tiers", "02 — Tiers"], ["process", "03 — Process"], ["capabilities", "04 — Specs"], ["contact", "05 — Contact"]].map(([h, t]) => (
+          {[["bunkers", "01 — Bunkers"], ["tiers", "02 — Tiers"], ["capabilities", "03 — Specs"], ["contact", "04 — Contact"]].map(([h, t]) => (
             <a key={h} href={`#${h}`} className="nav-link" style={{ textDecoration: "none" }}>{t}</a>
           ))}
         </nav>
@@ -615,7 +602,7 @@ function Nav({ scrollY }) {
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.4, ease: [0.7, 0, 0.2, 1] }} className="md:hidden hair-t" style={{ overflow: "hidden", background: "var(--ink)" }}>
             <div className="flex flex-col py-4 px-7">
-              {[["bunkers", "01 — Bunkers"], ["tiers", "02 — Tiers"], ["process", "03 — Process"], ["capabilities", "04 — Specs"], ["contact", "05 — Contact"]].map(([h, t], i) => (
+              {[["bunkers", "01 — Bunkers"], ["tiers", "02 — Tiers"], ["capabilities", "03 — Specs"], ["contact", "04 — Contact"]].map(([h, t], i) => (
                 <a key={i} href={`#${h}`} className="nav-link py-4 hair-b" onClick={() => setOpen(false)} style={{ textDecoration: "none" }}>{t}</a>
               ))}
             </div>
@@ -871,27 +858,6 @@ function Thesis() {
               <div className="bracket tl" /><div className="bracket br" />
             </div>
           </div>
-
-          <div style={{ marginTop: 80, maxWidth: 1100 }}>
-            <div className="grid md:grid-cols-3" style={{ gap: 40 }}>
-              {[
-                ["CONTINUITY", "Operational autonomy across power, air, water, and communication. A residence that does not stop when the grid does."],
-                ["PRIVACY", "Architecture removed from public sightlines. No address. No external footprint. Visible only to those invited."],
-                ["CONTROL", "Climate, atmosphere, ingress, monitoring — every variable governed from a single interface, by a single hand."],
-              ].map(([k, v]) => (
-                <div key={k} className="hair-t" style={{ paddingTop: 24 }}>
-                  <Label color="var(--gold)">{k}</Label>
-                  <p className="f-body t-bone" style={{ fontSize: 16, lineHeight: 1.55, marginTop: 18 }}>{v}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="hair-y flex flex-wrap items-center justify-between" style={{ marginTop: 96, padding: "20px 0", gap: 16 }}>
-            <Label>EST. PROTOCOL — Ω.001</Label>
-            <Label color="var(--bone-dim)">CLEARANCE — RESTRICTED</Label>
-            <Label>ENVELOPE — GLOBAL</Label>
-          </div>
         </div>
       </div>
     </section>
@@ -966,81 +932,11 @@ function BunkersShowcase() {
               </div>
             </div>
           </div>
-
-          <div className="grid md:grid-cols-4 h-swipe" style={{ marginTop: 32, background: "var(--line-2)", gap: 1 }}>
-            {[["BLAST", "≥ 1 MPa overpressure"], ["RADIATION", "99.97% attenuation"], ["ATMOSPHERIC", "NBC · ±0.1% O₂"], ["AUTONOMY", "40 kVA dual / 7-day"]].map(([k, v], i) => (
-              <div key={i} className="bg-ink spec-row" style={{ padding: "28px 22px", minHeight: 130 }}>
-                <Label color="var(--gold)">{k}</Label>
-                <div className="f-display" style={{ fontSize: 16, color: "var(--bone)", marginTop: 12, lineHeight: 1.3 }}>{v}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>
   );
 }
-
-/* ═══════════════════ STATS — smaller numbers ═══════════════════ */
-
-function Stats() {
-  const [ref, on] = useReveal(0.25);
-  const imgRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: imgRef, offset: ["start end", "end start"] });
-  const yImg = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-
-  const items = [
-    { num: "300%", label: "GLOBAL INTEREST", note: "Surge in private underground demand since 2020." },
-    { num: "$2B", label: "MARKET ENVELOPE", note: "Estimated category valuation. Expanding annually." },
-    { num: "01", label: "LUXURY POSITION", note: "No dominant premium brand exists. We define it." },
-  ];
-
-  return (
-    <section ref={ref} className="grain hair-b" style={{ background: "var(--ink)", padding: "160px 0" }}>
-      <div className="mx-auto" style={{ maxWidth: 1320 }}>
-        <div style={{ padding: "0 32px" }}>
-          <div className="flex items-center" style={{ gap: 14, marginBottom: 64 }}>
-            <span style={{ width: 40, height: 1, background: "var(--gold)", display: "block" }} />
-            <Label color="var(--gold)">02 — POSITION</Label>
-          </div>
-
-          <div className="grid md:grid-cols-12" style={{ gap: 32, alignItems: "stretch" }}>
-            <div ref={imgRef} className="md:col-span-5" style={{ position: "relative", minHeight: 460, overflow: "hidden", background: "var(--steel)" }}>
-              <motion.div className="bg-img dark" style={{ backgroundImage: `url(${IMG.statsImage}), linear-gradient(180deg, #1a1a1a, #050505)`, y: yImg, filter: "grayscale(30%) contrast(1.1) brightness(0.5)" }} />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(5,5,5,0.4), rgba(5,5,5,0.85))" }} />
-              <div style={{ position: "absolute", left: 22, top: 22 }}><Label color="var(--gold)">MARKET / 2026</Label></div>
-              <div style={{ position: "absolute", left: 22, bottom: 22, right: 22 }}>
-                <Label color="var(--bone-dim)">UNSERVED · UNCLAIMED</Label>
-                <div className="f-display" style={{ fontSize: 22, color: "var(--bone)", marginTop: 8, lineHeight: 1.05 }}>A category<br />without a leader.</div>
-              </div>
-              <div className="bracket tl" /><div className="bracket br" />
-            </div>
-
-            <div className="md:col-span-7">
-              {items.map((s, i) => (
-                <div key={i} className={i > 0 ? "hair-t" : ""} style={{ padding: i === 0 ? "0 0 28px 0" : "28px 0" }}>
-                  <div className="flex flex-wrap items-center justify-between" style={{ gap: 24 }}>
-                    <div className={`reveal-wrap ${on ? "reveal-on" : ""}`} style={{ display: "block" }}>
-                      <div className="reveal-inner f-display big-num" style={{ fontSize: "clamp(2.4rem, 5.6vw, 4.4rem)", lineHeight: 0.95, transitionDelay: `${i * 120}ms`, color: i === 1 ? "var(--gold)" : "var(--bone)" }}>
-                        {s.num}<span style={{ color: "var(--gold)", fontSize: "0.5em" }}>{i < 2 ? "+" : ""}</span>
-                      </div>
-                    </div>
-                    <div style={{ flex: 1, minWidth: 220, textAlign: "right" }}>
-                      <Label color="var(--bone)">{s.label}</Label>
-                      <p className="f-body t-bone-dim" style={{ fontSize: 13, lineHeight: 1.55, marginTop: 8, marginLeft: "auto", maxWidth: 320 }}>{s.note}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════ TIERS ═══════════════════ */
 
 function Tiers() {
   const tiers = [
@@ -1055,7 +951,7 @@ function Tiers() {
         <div style={{ padding: "0 32px" }}>
           <div className="flex items-center" style={{ gap: 14, marginBottom: 24 }}>
             <span style={{ width: 40, height: 1, background: "var(--gold)", display: "block" }} />
-            <Label color="var(--gold)">03 — CATALOGUE</Label>
+            <Label color="var(--gold)">02 — CATALOGUE</Label>
           </div>
           <div className="flex flex-wrap items-end justify-between" style={{ gap: 24, marginBottom: 64 }}>
             <h3 className="f-display" style={{ fontSize: "clamp(2.2rem, 5.6vw, 4.8rem)", lineHeight: 0.94, color: "var(--bone)", maxWidth: 760 }}>
@@ -1105,60 +1001,6 @@ function Tiers() {
   );
 }
 
-/* ═══════════════════ PROCESS ═══════════════════ */
-
-function Process() {
-  const steps = [
-    { n: "01", ttl: "CONSULTATION", sub: "WEEK 0", body: "Confidential briefing under NDA. Site assessment, threat profile, lifestyle envelope.", img: IMG.proc1 },
-    { n: "02", ttl: "DESIGN", sub: "WEEK 2 – 6", body: "Architectural studies, modular configuration, atelier finishes. Approved with the principal in person.", img: IMG.proc2 },
-    { n: "03", ttl: "ENGINEERING", sub: "WEEK 6 – 14", body: "Structural, hydraulic, atmospheric, AI control. Every subsystem certified to ISO and military standard.", img: IMG.proc3 },
-    { n: "04", ttl: "FABRICATION", sub: "WEEK 10 – 22", body: "Off-site manufacture under sealed protocol. Concurrent excavation if on-site works are commissioned.", img: IMG.proc4 },
-    { n: "05", ttl: "DELIVERY", sub: "WEEK 18 – 36", body: "Discreet transport, on-site placement, commissioning. Handover with full operational documentation.", img: IMG.proc5 },
-  ];
-  return (
-    <section id="process" className="grain hair-b" style={{ background: "var(--ink)", padding: "160px 0" }}>
-      <div className="mx-auto" style={{ maxWidth: 1320 }}>
-        <div style={{ padding: "0 32px 32px" }}>
-          <div className="flex items-center" style={{ gap: 14, marginBottom: 24 }}>
-            <span style={{ width: 40, height: 1, background: "var(--gold)", display: "block" }} />
-            <Label color="var(--gold)">04 — PROCESS</Label>
-          </div>
-          <h3 className="f-display" style={{ fontSize: "clamp(2.2rem, 5.6vw, 4.6rem)", lineHeight: 0.94, color: "var(--bone)", maxWidth: 720, marginBottom: 8 }}>
-            Five phases.<br /><span style={{ color: "var(--gold)" }}>One sealed protocol.</span>
-          </h3>
-        </div>
-
-        <div className="hair-y process-track">
-          {steps.map((s, i) => (
-            <div key={i} className="process-card" style={{ padding: "48px 32px", background: i % 2 ? "var(--carbon)" : "var(--ink)", minHeight: 540 }}>
-              <div className="proc-img-wrap">
-                <div className="proc-img" style={{ backgroundImage: `url(${s.img}), linear-gradient(135deg, #1a1a1a, #050505)` }} />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(5,5,5,0.2), rgba(5,5,5,0.8))" }} />
-                <div style={{ position: "absolute", left: 14, bottom: 14 }}><Label color="var(--gold)">PHASE {s.n}</Label></div>
-                <div className="bracket tl" /><div className="bracket br" />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="f-display big-num" style={{ fontSize: 48, color: "var(--gold)" }}>{s.n}</div>
-                <Label>{s.sub}</Label>
-              </div>
-              <div style={{ width: 48, height: 1, background: "var(--gold)", margin: "28px 0 24px" }} />
-              <h4 className="f-display" style={{ fontSize: 26, color: "var(--bone)", lineHeight: 1 }}>{s.ttl}</h4>
-              <p className="f-body t-bone-dim" style={{ fontSize: 13.5, lineHeight: 1.6, marginTop: 16 }}>{s.body}</p>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ padding: "20px 32px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Label color="var(--ash)">SCROLL HORIZONTALLY</Label>
-          <Label color="var(--ash)">↔</Label>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════ CAPABILITIES ═══════════════════ */
-
 function Capabilities() {
   const caps = [
     { Icon: ShieldCheck, k: "BLAST ENVELOPE", v: "≥ 1 MPa overpressure" },
@@ -1171,10 +1013,6 @@ function Capabilities() {
     { Icon: Lock, k: "INGRESS", v: "Airtight blast door" },
   ];
   const [ref, on] = useReveal(0.18);
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start end", "end start"] });
-  const yHero = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const scaleHero = useTransform(scrollYProgress, [0, 1], [1.05, 1.15]);
 
   return (
     <section id="capabilities" ref={ref} className="grain hair-b" style={{ background: "var(--ink)", padding: "160px 0", position: "relative" }}>
@@ -1183,7 +1021,7 @@ function Capabilities() {
         <div style={{ padding: "0 32px" }}>
           <div className="flex items-center" style={{ gap: 14, marginBottom: 24 }}>
             <span style={{ width: 40, height: 1, background: "var(--gold)", display: "block" }} />
-            <Label color="var(--gold)">05 — SPECIFICATIONS</Label>
+            <Label color="var(--gold)">03 — SPECIFICATIONS</Label>
           </div>
           <div className="flex flex-wrap items-end justify-between" style={{ gap: 32, marginBottom: 48 }}>
             <h3 className="f-display" style={{ fontSize: "clamp(2.2rem, 5.6vw, 4.6rem)", lineHeight: 0.94, color: "var(--bone)" }}>
@@ -1192,21 +1030,6 @@ function Capabilities() {
             <div className="f-mono t-bone-dim hair-t" style={{ fontSize: 12, lineHeight: 1.7, maxWidth: 320, paddingTop: 16 }}>
               CERT — ISO 9001 · CNAS<br />STANDARD — ASTM E668 · ISO 10055<br />ENVELOPE — Mil-grade alloy substrate
             </div>
-          </div>
-
-          <div ref={heroRef} style={{ position: "relative", height: 380, overflow: "hidden", background: "var(--steel)", marginBottom: 48 }}>
-            <motion.div style={{ position: "absolute", inset: "-10% -5%", backgroundImage: `url(${IMG.capabilitiesHero}), linear-gradient(135deg, #1a1a1a, #050505)`, backgroundSize: "cover", backgroundPosition: "center", y: yHero, scale: scaleHero, filter: "grayscale(40%) contrast(1.15) brightness(0.45)" }} />
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(5,5,5,0.5), rgba(5,5,5,0.2) 40%, rgba(5,5,5,0.9))" }} />
-            <div style={{ position: "absolute", left: 28, top: 28, display: "flex", gap: 8, alignItems: "center" }}>
-              <Layers size={12} color="var(--gold)" /><Label color="var(--bone)">ENGINEERING SUBSTRATE</Label>
-            </div>
-            <div style={{ position: "absolute", left: 28, bottom: 28, right: 28 }}>
-              <Label color="var(--gold)">CORE SYSTEMS</Label>
-              <div className="f-display" style={{ fontSize: "clamp(1.5rem, 3.6vw, 2.6rem)", color: "var(--bone)", marginTop: 8, lineHeight: 1.05 }}>
-                Every subsystem certified.<br />Every envelope sealed.
-              </div>
-            </div>
-            <div className="bracket tl" /><div className="bracket tr" /><div className="bracket bl" /><div className="bracket br" />
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 h-swipe" style={{ background: "var(--line-2)", gap: 1 }}>
@@ -1220,266 +1043,11 @@ function Capabilities() {
               </div>
             ))}
           </div>
-
-          <div className="grid md:grid-cols-12" style={{ gap: 32, marginTop: 96 }}>
-            <div className="md:col-span-5" style={{ position: "relative", minHeight: 460, overflow: "hidden", background: "var(--steel)" }}>
-              <div className="bg-img dark drift" style={{ backgroundImage: `url(${IMG.capabilitiesAccent}), linear-gradient(180deg, #1a1a1a, #050505)`, filter: "grayscale(40%) contrast(1.1) brightness(0.45)" }} />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(5,5,5,0.3), rgba(5,5,5,0.85))" }} />
-              <div style={{ position: "absolute", left: 22, top: 22 }}><Label color="var(--gold)">SCHEMATIC · §07</Label></div>
-              <div style={{ position: "absolute", left: 22, bottom: 22, right: 22 }}>
-                <Label color="var(--bone-dim)">DIMENSIONAL ENVELOPES</Label>
-                <div className="f-display" style={{ fontSize: 26, color: "var(--bone)", marginTop: 8, lineHeight: 1.05 }}>From 12 m²<br />to bespoke.</div>
-              </div>
-              <div className="bracket tl" /><div className="bracket br" />
-            </div>
-
-            <div className="md:col-span-7">
-              <div className="flex items-center justify-between hair-b" style={{ paddingBottom: 16 }}>
-                <Label color="var(--gold)">UNIT REFERENCE</Label>
-                <Label>SUB-GRADE / m</Label>
-              </div>
-              {[["UNIT A · 20ft", "6.3 × 3.3 × 3.3", "20 – 28 m²"], ["UNIT B · 30ft", "9.3 × 3.3 × 3.3", "32 – 42 m²"], ["UNIT C · 50ft", "15.3 × 3.3 × 3.3", "55 – 72 m²"], ["DOME · GEODESIC", "Variable", "120 – 800 m²"], ["CUSTOM / MAJLIS", "ON-SPEC", "80 m² +"]].map(([a, b, c], i) => (
-                <div key={i} className="hair-b spec-row grid" style={{ padding: "22px 8px", gridTemplateColumns: "1.5fr 1.5fr 1fr", alignItems: "center" }}>
-                  <div className="f-display t-bone" style={{ fontSize: 17 }}>{a}</div>
-                  <div className="f-mono t-bone-dim" style={{ fontSize: 12 }}>{b}</div>
-                  <div className="f-mono t-gold" style={{ fontSize: 12, textAlign: "right" }}>{c}</div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>
   );
 }
-
-/* ═══════════════════ REGION ═══════════════════ */
-
-function Region() {
-  return (
-    <section className="grain hair-b" style={{ position: "relative", background: "var(--carbon)", padding: "160px 0", overflow: "hidden" }}>
-      <div className="bg-img" style={{ backgroundImage: `url(${IMG.gcc}), linear-gradient(180deg, #1a1a1a, #050505)`, filter: "grayscale(50%) contrast(1.1) brightness(0.35)", opacity: 0.55 }} />
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.5) 50%, rgba(10,10,10,0.95) 100%)" }} />
-      <div className="mx-auto" style={{ position: "relative", maxWidth: 1320 }}>
-        <div style={{ padding: "0 32px" }}>
-          <div className="flex items-center" style={{ gap: 14, marginBottom: 24 }}>
-            <Globe size={14} color="var(--gold)" /><Label color="var(--gold)">06 — TERRITORY</Label>
-          </div>
-          <div className="grid md:grid-cols-12" style={{ gap: 40 }}>
-            <div className="md:col-span-7">
-              <h3 className="f-display" style={{ fontSize: "clamp(2.2rem, 5.6vw, 4.8rem)", lineHeight: 0.94, color: "var(--bone)" }}>
-                High concentration<br />of wealth.<br />
-                <span style={{ color: "var(--gold)" }}>Zero luxury competition.</span>
-              </h3>
-              <p className="f-body t-bone-dim" style={{ fontSize: 15, lineHeight: 1.65, marginTop: 32, maxWidth: 520 }}>
-                The Gulf represents the optimal launch envelope. Concentrated UHNW density. A culture of bespoke architecture. A region for which discretion is not preference but inheritance.
-              </p>
-            </div>
-            <div className="md:col-span-5">
-              <div className="hair-t" style={{ paddingTop: 20 }}>
-                <Label color="var(--gold)">PRIMARY MARKETS</Label>
-                <div style={{ marginTop: 20 }}>
-                  {[["UAE", "Dubai · Abu Dhabi"], ["KSA", "Riyadh · NEOM corridor"], ["QATAR", "Doha"], ["KUWAIT", "Kuwait City"]].map(([k, v], i) => (
-                    <div key={i} className="flex items-center justify-between hair-b" style={{ padding: "18px 0" }}>
-                      <div className="f-display t-bone" style={{ fontSize: 16 }}>{k}</div>
-                      <div className="f-mono t-bone-dim" style={{ fontSize: 11 }}>{v}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════ AI ASSISTANT — Ω INTAKE CONCIERGE ═══════════════════ */
-
-function Assistant({ open, onClose, fields, setFields, onSubmit }) {
-  const [messages, setMessages] = useState([
-    { role: "ai", text: "Welcome. I'm Ω — MINUS 1's AI intake concierge." },
-    { role: "ai", text: "I'll guide you through a confidential briefing request in under two minutes. Shall we begin?" },
-  ]);
-  const [stage, setStage] = useState("start");
-  const [draft, setDraft] = useState("");
-  const [typing, setTyping] = useState(false);
-  const bodyRef = useRef(null);
-
-  useEffect(() => {
-    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [messages, typing]);
-
-  const aiSay = useCallback((text, delay = 900) => {
-    setTyping(true);
-    setTimeout(() => {
-      setTyping(false);
-      setMessages((m) => [...m, { role: "ai", text }]);
-    }, delay);
-  }, []);
-
-  const userSay = useCallback((text) => {
-    setMessages((m) => [...m, { role: "user", text }]);
-  }, []);
-
-  const handle = useCallback((input) => {
-    const trimmed = (input || "").trim();
-    if (!trimmed) return;
-    userSay(trimmed);
-    setDraft("");
-
-    switch (stage) {
-      case "start":
-        if (/begin|yes|sure|ok|start|continue/i.test(trimmed)) {
-          aiSay("How shall I address you?");
-          setStage("name");
-        } else if (/tell|more|info|what|why/i.test(trimmed)) {
-          aiSay("MINUS 1 designs private subterranean environments — bunker estates engineered for continuity, privacy, and control. Engagement is by appointment only, under NDA.", 1100);
-          setTimeout(() => aiSay("Shall we begin?", 800), 1500);
-        } else {
-          aiSay("To proceed, simply say 'yes' or 'begin'.");
-        }
-        break;
-      case "name":
-        setFields((f) => ({ ...f, name: trimmed }));
-        aiSay(`Thank you, ${trimmed.split(" ")[0]}.`, 700);
-        setTimeout(() => aiSay("Are you enquiring on behalf of an organisation, a family office, or as an individual?", 900), 1000);
-        setStage("entity");
-        break;
-      case "entity":
-        setFields((f) => ({ ...f, entity: trimmed }));
-        aiSay("Understood.", 600);
-        setTimeout(() => aiSay("From which territory will the consultation take place?", 800), 900);
-        setStage("territory");
-        break;
-      case "territory":
-        setFields((f) => ({ ...f, territory: trimmed }));
-        aiSay(`Noted — ${trimmed}.`, 700);
-        setTimeout(() => aiSay("What is the most discreet channel for our intake desk to reach you?", 900), 1000);
-        setStage("channel");
-        break;
-      case "channel":
-        setFields((f) => ({ ...f, channel: trimmed }));
-        aiSay("Received. We use encrypted channels wherever possible.", 800);
-        setTimeout(() => aiSay("Final question — which tier best matches your project? Safe Room, Modular, or Custom?", 900), 1100);
-        setStage("interest");
-        break;
-      case "interest": {
-        let normalised = "CUSTOM";
-        if (/safe|room/i.test(trimmed)) normalised = "SAFE ROOM";
-        else if (/modular|mid/i.test(trimmed)) normalised = "MODULAR";
-        else if (/custom|bespoke|flagship|premium/i.test(trimmed)) normalised = "CUSTOM";
-        setFields((f) => ({ ...f, interest: normalised }));
-        aiSay(`Excellent — ${normalised}.`, 700);
-        setTimeout(() => aiSay("Brief is ready. Shall I submit this to the intake desk?", 900), 1100);
-        setStage("review");
-        break;
-      }
-      case "review":
-        if (/yes|submit|send|confirm|ok/i.test(trimmed)) {
-          aiSay("Submitted. Reference logged internally.", 700);
-          setTimeout(() => {
-            aiSay("The intake desk will reach you within 72 hours on the channel provided.", 900);
-            onSubmit();
-          }, 1100);
-          setStage("done");
-        } else if (/edit|change|no|wait/i.test(trimmed)) {
-          aiSay("Of course. You can edit any field directly in the form, or tell me which to change.", 900);
-        } else {
-          aiSay("Reply 'yes' to submit, or 'edit' to make changes.");
-        }
-        break;
-      default:
-        aiSay("Our session is complete. Close this panel to return to the site.");
-    }
-  }, [stage, setFields, userSay, aiSay, onSubmit]);
-
-  const suggestionsFor = (s) => {
-    switch (s) {
-      case "start": return ["Yes, begin", "Tell me more first"];
-      case "entity": return ["Family office", "Organisation", "Individual"];
-      case "territory": return ["Dubai", "Riyadh", "Doha"];
-      case "interest": return ["SAFE ROOM", "MODULAR", "CUSTOM"];
-      case "review": return ["Submit", "Edit a field"];
-      default: return null;
-    }
-  };
-
-  const sug = suggestionsFor(stage);
-  const placeholder = {
-    start: "Type 'yes' to begin…",
-    name: "Your name…",
-    entity: "Family office / Individual…",
-    territory: "City · Country…",
-    channel: "Email or encrypted channel…",
-    interest: "Safe Room / Modular / Custom…",
-    review: "Type 'yes' to submit…",
-    done: "Session complete.",
-  }[stage];
-
-  if (!open) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 30 }}
-      transition={{ duration: 0.35, ease: [0.7, 0, 0.2, 1] }}
-      className="ai-panel grain"
-    >
-      <div className="ai-head">
-        <div className="flex items-center" style={{ gap: 12 }}>
-          <div className="ai-omega">Ω</div>
-          <div>
-            <div className="f-mono" style={{ fontSize: 11, letterSpacing: "0.18em", color: "var(--gold)" }}>
-              INTAKE CONCIERGE
-            </div>
-            <div className="f-mono" style={{ fontSize: 10, letterSpacing: "0.22em", color: "var(--ash)", marginTop: 2 }}>
-              AI · ALWAYS ENCRYPTED
-            </div>
-          </div>
-        </div>
-        <button onClick={onClose} aria-label="Close" style={{ background: "transparent", border: "1px solid var(--line-2)", width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--bone-dim)", cursor: "pointer" }}>
-          <X size={14} />
-        </button>
-      </div>
-
-      <div className="ai-body" ref={bodyRef}>
-        {messages.map((m, i) => (
-          <div key={i} className={`ai-msg ${m.role}`}>
-            <div className="ai-avatar">{m.role === "ai" ? "Ω" : "·"}</div>
-            <div className="ai-bubble">{m.text}</div>
-          </div>
-        ))}
-        {typing && (
-          <div className="ai-msg">
-            <div className="ai-avatar">Ω</div>
-            <div className="ai-bubble" style={{ padding: 0 }}>
-              <div className="ai-typing"><span /><span /><span /></div>
-            </div>
-          </div>
-        )}
-        {sug && !typing && stage !== "done" && (
-          <div className="ai-suggested">
-            {sug.map((s) => (
-              <button key={s} className="ai-chip" onClick={() => handle(s)}>{s}</button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <form className="ai-foot" onSubmit={(e) => { e.preventDefault(); handle(draft); }}>
-        <input className="ai-input" placeholder={placeholder} value={draft} onChange={(e) => setDraft(e.target.value)} disabled={stage === "done" || typing} />
-        <button type="submit" className="ai-send" disabled={!draft.trim() || stage === "done" || typing} aria-label="Send">
-          <Send size={14} />
-        </button>
-      </form>
-    </motion.div>
-  );
-}
-
-/* ═══════════════════ CTA — with AI assistant ═══════════════════ */
 
 function CTA() {
   const [fields, setFields] = useState({ name: "", entity: "", territory: "", channel: "", interest: null });
@@ -1495,7 +1063,7 @@ function CTA() {
           <div style={{ padding: "0 32px" }}>
             <div className="flex items-center" style={{ gap: 14, marginBottom: 24 }}>
               <span style={{ width: 40, height: 1, background: "var(--gold)", display: "block" }} />
-              <Label color="var(--gold)">07 — CONTACT</Label>
+              <Label color="var(--gold)">04 — CONTACT</Label>
             </div>
             <div className="grid md:grid-cols-12" style={{ gap: 48 }}>
               <div className="md:col-span-7">
@@ -1744,11 +1312,8 @@ export default function Minus1() {
       <Marquee />
       <Thesis />
       <BunkersShowcase />
-      <Stats />
       <Tiers />
-      <Process />
       <Capabilities />
-      <Region />
       <CTA />
       <Footer />
     </div>
