@@ -324,6 +324,88 @@ section { isolation: isolate; }
 .ai-send { background: transparent; border: 1px solid var(--gold); color: var(--gold); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 220ms ease; }
 .ai-send:hover { background: var(--gold); color: var(--ink); }
 .ai-send:disabled { border-color: var(--line-2); color: var(--ash); cursor: not-allowed; background: transparent; }
+
+/* ─────────────────── MOBILE OPTIMIZATIONS ─────────────────── */
+@media (max-width: 768px) {
+  /* SECTION PADDING — compress vertical rhythm */
+  section {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+  }
+  /* Bunkers showcase has 180px internal padding on its wrapper */
+  #bunkers > .mx-auto {
+    padding-top: 100px !important;
+    padding-bottom: 100px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  /* HERO — proper tap actions to replace desktop hover */
+  .hero-half { -webkit-tap-highlight-color: transparent; }
+  .hero-half.warm:active .bg-img {
+    filter: grayscale(0%) contrast(1.1) brightness(0.72) sepia(0.05);
+    transform: scale(1.04);
+  }
+  .hero-half.dark:active .bg-img {
+    filter: grayscale(5%) contrast(1.15) brightness(0.7);
+    transform: scale(1.04);
+  }
+  /* Promote the existing u-link inside the hero into a real CTA button */
+  .hero-half .u-link {
+    border: 1px solid rgba(237, 232, 223, 0.28) !important;
+    padding: 14px 18px !important;
+    background: rgba(5, 5, 5, 0.55) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin-top: 18px !important;
+    width: 100%;
+    justify-content: space-between;
+    transition: border-color 250ms ease, background 250ms ease;
+  }
+  .hero-half.dark .u-link {
+    border-color: rgba(200, 156, 74, 0.5) !important;
+  }
+  .hero-half:active .u-link {
+    background: rgba(200, 156, 74, 0.18) !important;
+    border-color: var(--gold) !important;
+  }
+  .hero-half .u-link::after { display: none !important; }
+  /* Scroll cue is redundant on stacked mobile layout */
+  .scroll-cue { display: none !important; }
+
+  /* IMAGE HEIGHT REDUCTIONS — target inline pixel heights */
+  [style*="height: 540"] { height: 300px !important; }
+  [style*="height: 480"] { height: 280px !important; }
+  [style*="height: 460"] { height: auto !important; min-height: 280px !important; }
+  [style*="height: 380"] { height: 240px !important; }
+  [style*="height: 240"] { height: 200px !important; }
+  [style*="min-height: 460"] { min-height: 280px !important; }
+  [style*="min-height: 600"] { min-height: auto !important; }
+  [style*="min-height: 540"] { min-height: auto !important; }
+  [style*="min-height: 230"] { min-height: 180px !important; }
+
+  /* PROCESS CARDS — shorter on mobile */
+  .process-card { padding: 40px 24px !important; min-height: auto !important; }
+  .process-card .proc-img-wrap { height: 140px !important; margin-bottom: 28px !important; }
+
+  /* TIER CARDS — tighter padding */
+  .tier { padding: 28px 22px !important; }
+
+  /* GAP & MARGIN COMPRESSIONS */
+  [style*="gap: 48px"] { gap: 28px !important; }
+  [style*="gap: 40px"] { gap: 24px !important; }
+  [style*="margin-top: 96"] { margin-top: 56px !important; }
+  [style*="margin-top: 80"] { margin-top: 48px !important; }
+  [style*="margin-top: 64"] { margin-top: 36px !important; }
+  [style*="margin-bottom: 80"] { margin-bottom: 48px !important; }
+  [style*="margin-bottom: 64"] { margin-bottom: 36px !important; }
+
+  /* MARQUEE — slightly smaller words on phones */
+  .marquee-word { font-size: clamp(1.2rem, 5vw, 1.8rem) !important; }
+  .marquee-rule { width: 36px !important; }
+  .marquee-track { gap: 32px !important; }
+  .marquee-row { gap: 32px !important; }
+}
 `;
 
 /* ═══════════════════ HOOKS ═══════════════════ */
