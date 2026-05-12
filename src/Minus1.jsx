@@ -325,80 +325,141 @@ section { isolation: isolate; }
 .ai-send:hover { background: var(--gold); color: var(--ink); }
 .ai-send:disabled { border-color: var(--line-2); color: var(--ash); cursor: not-allowed; background: transparent; }
 
+/* HERO CTA — desktop default look (mirrors u-link style) */
+.hero-cta {
+  position: relative; display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; padding-bottom: 4px;
+  transition: color 200ms ease;
+}
+.hero-cta::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 100%;
+  background: currentColor; transform-origin: right; transform: scaleX(1);
+  transition: transform 500ms cubic-bezier(.7,0,.2,1);
+}
+.hero-half:hover .hero-cta::after { transform-origin: left; transform: scaleX(0); }
+/* show "Enter" text by default (desktop) — hide the mobile "Tap to expand" text */
+.hero-cta-label { display: inline-flex; }
+.hero-cta-tap { display: none; }
+
 /* ─────────────────── MOBILE OPTIMIZATIONS ─────────────────── */
 @media (max-width: 768px) {
   /* SECTION PADDING — compress vertical rhythm */
-  section {
-    padding-top: 80px !important;
-    padding-bottom: 80px !important;
-  }
-  /* Bunkers showcase has 180px internal padding on its wrapper */
+  section { padding-top: 72px !important; padding-bottom: 72px !important; }
   #bunkers > .mx-auto {
-    padding-top: 100px !important;
-    padding-bottom: 100px !important;
-    padding-left: 24px !important;
-    padding-right: 24px !important;
+    padding-top: 96px !important; padding-bottom: 96px !important;
+    padding-left: 22px !important; padding-right: 22px !important;
   }
 
-  /* HERO — proper tap actions to replace desktop hover */
-  .hero-half { -webkit-tap-highlight-color: transparent; }
-  .hero-half.warm:active .bg-img {
-    filter: grayscale(0%) contrast(1.1) brightness(0.72) sepia(0.05);
-    transform: scale(1.04);
+  /* === HERO: vertical split with tap-to-expand (mirrors desktop hover) === */
+  .hero-split {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr 1fr !important;
+    transition: grid-template-rows 700ms cubic-bezier(.7,0,.2,1) !important;
   }
-  .hero-half.dark:active .bg-img {
-    filter: grayscale(5%) contrast(1.15) brightness(0.7);
-    transform: scale(1.04);
+  .hero-split.left-active {
+    grid-template-rows: 1.85fr 1fr !important;
   }
-  /* Promote the existing u-link inside the hero into a real CTA button */
-  .hero-half .u-link {
-    border: 1px solid rgba(237, 232, 223, 0.28) !important;
-    padding: 14px 18px !important;
-    background: rgba(5, 5, 5, 0.55) !important;
+  .hero-split.right-active {
+    grid-template-rows: 1fr 1.85fr !important;
+  }
+  .hero-half {
+    -webkit-tap-highlight-color: transparent;
+    border-left: none !important;
+  }
+  /* the collapsed side hides description; only label + heading + cue visible */
+  .hero-half.is-collapsed .hero-desc { display: none; }
+  .hero-half.is-collapsed .hero-content { padding: 22px !important; }
+  /* the active (expanded) side shows the full Observe/Initiate CTA as a real button */
+  .hero-half.is-active .hero-cta {
+    border: 1px solid rgba(237, 232, 223, 0.32);
+    padding: 14px 18px;
+    background: rgba(5, 5, 5, 0.55);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    margin-top: 18px !important;
     width: 100%;
     justify-content: space-between;
-    transition: border-color 250ms ease, background 250ms ease;
+    margin-top: 22px !important;
   }
-  .hero-half.dark .u-link {
-    border-color: rgba(200, 156, 74, 0.5) !important;
+  .hero-half.dark.is-active .hero-cta {
+    border-color: rgba(200, 156, 74, 0.55);
+    background: rgba(200, 156, 74, 0.06);
   }
-  .hero-half:active .u-link {
-    background: rgba(200, 156, 74, 0.18) !important;
-    border-color: var(--gold) !important;
+  .hero-half.is-active .hero-cta::after { display: none; }
+  /* the collapsed side shows the "Tap to expand" cue instead of the Enter label */
+  .hero-half.is-collapsed .hero-cta-tap { display: inline; color: var(--gold); font-style: italic; font-weight: 500; }
+  .hero-half.is-collapsed .hero-cta-enter { display: none; }
+  .hero-half.is-collapsed .hero-cta {
+    margin-top: 14px !important;
+    padding-bottom: 2px;
+    font-size: 10px;
   }
-  .hero-half .u-link::after { display: none !important; }
-  /* Scroll cue is redundant on stacked mobile layout */
+  .hero-half.is-collapsed .hero-cta::after { display: none; }
+  /* tap feedback — image zoom on press */
+  .hero-half:active .bg-img {
+    transform: scale(1.05);
+    transition: transform 250ms ease, filter 250ms ease;
+  }
+  /* hide the floating "SCROLL TO ENTER" — replaced by the active CTA */
   .scroll-cue { display: none !important; }
 
-  /* IMAGE HEIGHT REDUCTIONS — target inline pixel heights */
-  [style*="height: 540"] { height: 300px !important; }
-  [style*="height: 480"] { height: 280px !important; }
-  [style*="height: 460"] { height: auto !important; min-height: 280px !important; }
-  [style*="height: 380"] { height: 240px !important; }
-  [style*="height: 240"] { height: 200px !important; }
-  [style*="min-height: 460"] { min-height: 280px !important; }
+  /* === H-SWIPE: horizontal scroll for selected grids === */
+  .h-swipe {
+    display: flex !important;
+    grid-template-columns: none !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 1px !important;
+    background: var(--line-2);
+    padding: 0 !important;
+    margin-left: -22px;
+    margin-right: -22px;
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+  }
+  .h-swipe::-webkit-scrollbar { display: none; }
+  /* Tier cards (wrapped in <Tilt>) — fixed-width snap items */
+  .h-swipe > * {
+    flex: 0 0 84% !important;
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+  /* Spec cells (4-cell / 8-cell grids without Tilt wrapper) — narrower */
+  .h-swipe > .spec-row {
+    flex: 0 0 64% !important;
+    scroll-snap-align: start;
+  }
+  /* visual hint that more is to the right */
+  .h-swipe { position: relative; }
+
+  /* === IMAGE HEIGHT REDUCTIONS === */
+  [style*="height: 540"] { height: 280px !important; }
+  [style*="height: 480"] { height: 260px !important; }
+  [style*="height: 460"] { height: auto !important; min-height: 260px !important; }
+  [style*="height: 380"] { height: 220px !important; }
+  [style*="height: 240"] { height: 180px !important; }
+  [style*="min-height: 460"] { min-height: 260px !important; }
   [style*="min-height: 600"] { min-height: auto !important; }
   [style*="min-height: 540"] { min-height: auto !important; }
-  [style*="min-height: 230"] { min-height: 180px !important; }
+  [style*="min-height: 230"] { min-height: 160px !important; }
 
-  /* PROCESS CARDS — shorter on mobile */
-  .process-card { padding: 40px 24px !important; min-height: auto !important; }
-  .process-card .proc-img-wrap { height: 140px !important; margin-bottom: 28px !important; }
+  /* PROCESS — keep h-scroll, just tighten */
+  .process-card { padding: 32px 22px !important; min-height: auto !important; }
+  .process-card .proc-img-wrap { height: 130px !important; margin-bottom: 22px !important; }
 
-  /* TIER CARDS — tighter padding */
-  .tier { padding: 28px 22px !important; }
+  /* TIER CARD — make sure padding is mobile-tight inside the h-swipe */
+  .tier { padding: 26px 22px !important; }
 
   /* GAP & MARGIN COMPRESSIONS */
-  [style*="gap: 48px"] { gap: 28px !important; }
-  [style*="gap: 40px"] { gap: 24px !important; }
-  [style*="margin-top: 96"] { margin-top: 56px !important; }
-  [style*="margin-top: 80"] { margin-top: 48px !important; }
-  [style*="margin-top: 64"] { margin-top: 36px !important; }
-  [style*="margin-bottom: 80"] { margin-bottom: 48px !important; }
-  [style*="margin-bottom: 64"] { margin-bottom: 36px !important; }
+  [style*="gap: 48px"] { gap: 24px !important; }
+  [style*="gap: 40px"] { gap: 22px !important; }
+  [style*="margin-top: 96"] { margin-top: 48px !important; }
+  [style*="margin-top: 80"] { margin-top: 40px !important; }
+  [style*="margin-top: 64"] { margin-top: 32px !important; }
+  [style*="margin-bottom: 80"] { margin-bottom: 40px !important; }
+  [style*="margin-bottom: 64"] { margin-bottom: 32px !important; }
 
   /* MARQUEE — slightly smaller words on phones */
   .marquee-word { font-size: clamp(1.2rem, 5vw, 1.8rem) !important; }
@@ -643,20 +704,53 @@ function DepthIndicator({ depth }) {
   );
 }
 
-/* ═══════════════════ HERO — scroll cue hides on scroll ═══════════════════ */
+/* ═══════════════════ HERO — desktop hover-expand · mobile tap-to-expand ═══════════════════ */
 
 function Hero({ scrollY }) {
   const [hover, setHover] = useState(null);
-  const split = hover === "L" ? "hero-split left-active" : hover === "R" ? "hero-split right-active" : "hero-split";
+  // mobile: track which side is expanded; default to LEFT/DOMES
+  const [mobileSide, setMobileSide] = useState("L");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // hover wins on desktop; mobileSide drives on mobile
+  const activeSide = hover || (isMobile ? mobileSide : null);
+  const split =
+    activeSide === "L" ? "hero-split left-active" :
+    activeSide === "R" ? "hero-split right-active" :
+    "hero-split";
   const cueHidden = scrollY > 80;
+
+  // On mobile: first tap on the collapsed side expands it instead of navigating.
+  // Second tap on the (already-expanded) active side lets the <a> link navigate.
+  const halfClick = (s) => (e) => {
+    if (!isMobile) return;
+    if (mobileSide !== s) {
+      e.preventDefault();
+      setMobileSide(s);
+    }
+  };
 
   return (
     <section id="top" style={{ height: "100vh", position: "relative" }} className="grain vignette">
       <div className={split} style={{ height: "100%" }}>
-        <a href="#domes" className="hero-half warm" style={{ position: "relative", overflow: "hidden", textDecoration: "none", color: "inherit" }} onMouseEnter={() => setHover("L")} onMouseLeave={() => setHover(null)}>
+        <a
+          href="#domes"
+          className={`hero-half warm ${activeSide === "L" ? "is-active" : "is-collapsed"}`}
+          style={{ position: "relative", overflow: "hidden", textDecoration: "none", color: "inherit" }}
+          onMouseEnter={() => setHover("L")}
+          onMouseLeave={() => setHover(null)}
+          onClick={halfClick("L")}
+        >
           <div className="bg-img warm drift" style={{ backgroundImage: `url(${IMG.domesHero}), linear-gradient(135deg, #2a2520, #1a1610)` }} />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0.1) 50%, rgba(5,5,5,0.85) 100%)", zIndex: 2 }} />
-          <div style={{ position: "relative", zIndex: 6, height: "100%", padding: "32px" }} className="flex flex-col justify-between">
+          <div style={{ position: "relative", zIndex: 6, height: "100%", padding: "32px" }} className="flex flex-col justify-between hero-content">
             <div className="flex items-center justify-between">
               <Label color="var(--gold)">I — ABOVE THE LINE</Label>
               <div className="flex items-center" style={{ gap: 8 }}><Sun size={12} color="var(--gold-bright)" /><Label>SURFACE · 00m</Label></div>
@@ -667,24 +761,35 @@ function Hero({ scrollY }) {
                   <div className="reveal-inner f-display clamp-display" style={{ fontSize: "clamp(3.5rem, 10vw, 9rem)", lineHeight: 0.88, color: "var(--bone)" }}>DOMES</div>
                 </div>
               </div>
-              <div className="reveal-on">
+              <div className="reveal-on hero-desc">
                 <div className="reveal-wrap" style={{ display: "block" }}>
                   <div className="reveal-inner f-body" style={{ fontSize: 14, lineHeight: 1.6, color: "var(--bone-dim)", maxWidth: 420, marginTop: 24, transitionDelay: "120ms" }}>
                     Sculpted geodesic enclosures. Climate-managed, solar-shielded, visible only when invited to see them.
                   </div>
                 </div>
               </div>
-              <div className="u-link" style={{ marginTop: 36, color: "var(--bone)" }}>
-                <Label color="var(--bone)">Observe the Surface</Label><ArrowRight size={14} />
+              <div className="hero-cta" style={{ marginTop: 28, color: "var(--bone)" }}>
+                <span className="hero-cta-label">
+                  <span className="hero-cta-tap">Tap to expand</span>
+                  <span className="hero-cta-enter">Observe the Surface</span>
+                </span>
+                <ArrowRight size={14} />
               </div>
             </div>
           </div>
         </a>
 
-        <a href="#bunkers" className="hero-half dark hair-l" style={{ position: "relative", overflow: "hidden", textDecoration: "none", color: "inherit" }} onMouseEnter={() => setHover("R")} onMouseLeave={() => setHover(null)}>
+        <a
+          href="#bunkers"
+          className={`hero-half dark hair-l ${activeSide === "R" ? "is-active" : "is-collapsed"}`}
+          style={{ position: "relative", overflow: "hidden", textDecoration: "none", color: "inherit" }}
+          onMouseEnter={() => setHover("R")}
+          onMouseLeave={() => setHover(null)}
+          onClick={halfClick("R")}
+        >
           <div className="bg-img dark drift" style={{ backgroundImage: `url(${IMG.bunkersHero}), linear-gradient(225deg, #0c0c0c, #050505)` }} />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(225deg, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0.1) 50%, rgba(5,5,5,0.95) 100%)", zIndex: 2 }} />
-          <div style={{ position: "relative", zIndex: 6, height: "100%", padding: "32px" }} className="flex flex-col justify-between">
+          <div style={{ position: "relative", zIndex: 6, height: "100%", padding: "32px" }} className="flex flex-col justify-between hero-content">
             <div className="flex items-center justify-between">
               <Label color="var(--gold)">II — BELOW THE LINE</Label>
               <div className="flex items-center" style={{ gap: 8 }}><ArrowDown size={12} color="var(--gold-bright)" /><Label>SUB-GRADE · −47m</Label></div>
@@ -695,15 +800,19 @@ function Hero({ scrollY }) {
                   <div className="reveal-inner f-display clamp-display" style={{ fontSize: "clamp(3.5rem, 10vw, 9rem)", lineHeight: 0.88, color: "var(--gold)" }}>BUNKERS</div>
                 </div>
               </div>
-              <div className="reveal-on">
+              <div className="reveal-on hero-desc">
                 <div className="reveal-wrap" style={{ display: "block" }}>
                   <div className="reveal-inner f-body" style={{ fontSize: 14, lineHeight: 1.6, color: "var(--bone-dim)", maxWidth: 420, marginTop: 24, transitionDelay: "120ms" }}>
                     Subterranean estates. Sealed, autonomous, removed from the grid — for continuity, privacy, control.
                   </div>
                 </div>
               </div>
-              <div className="u-link" style={{ marginTop: 36, color: "var(--gold-bright)" }}>
-                <Label color="var(--gold-bright)">Initiate the Descent</Label><ArrowRight size={14} />
+              <div className="hero-cta" style={{ marginTop: 28, color: "var(--gold-bright)" }}>
+                <span className="hero-cta-label">
+                  <span className="hero-cta-tap">Tap to expand</span>
+                  <span className="hero-cta-enter">Initiate the Descent</span>
+                </span>
+                <ArrowRight size={14} />
               </div>
             </div>
           </div>
@@ -878,7 +987,7 @@ function DomesShowcase() {
             <div className="bracket tl" /><div className="bracket tr" /><div className="bracket bl" /><div className="bracket br" />
           </div>
 
-          <div className="grid md:grid-cols-4" style={{ marginTop: 64, background: "var(--line-2)", gap: 1 }}>
+          <div className="grid md:grid-cols-4 h-swipe" style={{ marginTop: 64, background: "var(--line-2)", gap: 1 }}>
             {[["GEOMETRY", "Geodesic · Triax frame"], ["GLAZING", "Polarised · UV/IR filtered"], ["CLIMATE", "Nine-constant system"], ["ACOUSTIC", "Sub-30dB ambient"], ["LOAD", "Wind · 280 km/h rated"], ["SEAL", "Sand-storm tight class"], ["ENERGY", "Solar + battery autonomy"], ["FINISH", "Bespoke interior atelier"]].map(([k, v], i) => (
               <div key={i} className="bg-carbon spec-row" style={{ padding: "28px 22px", minHeight: 130 }}>
                 <Label color="var(--gold)">{k}</Label>
@@ -961,7 +1070,7 @@ function BunkersShowcase() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-4" style={{ marginTop: 32, background: "var(--line-2)", gap: 1 }}>
+          <div className="grid md:grid-cols-4 h-swipe" style={{ marginTop: 32, background: "var(--line-2)", gap: 1 }}>
             {[["BLAST", "≥ 1 MPa overpressure"], ["RADIATION", "99.97% attenuation"], ["ATMOSPHERIC", "NBC · ±0.1% O₂"], ["AUTONOMY", "40 kVA dual / 7-day"]].map(([k, v], i) => (
               <div key={i} className="bg-ink spec-row" style={{ padding: "28px 22px", minHeight: 130 }}>
                 <Label color="var(--gold)">{k}</Label>
@@ -1060,7 +1169,7 @@ function Tiers() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3" style={{ background: "var(--line-2)", gap: 1 }}>
+          <div className="grid md:grid-cols-3 h-swipe" style={{ background: "var(--line-2)", gap: 1 }}>
             {tiers.map((t, i) => (
               <Tilt key={i} max={5}>
                 <article className="tier bg-ink flex flex-col" style={{ padding: "32px", minHeight: 600 }}>
@@ -1203,7 +1312,7 @@ function Capabilities() {
             <div className="bracket tl" /><div className="bracket tr" /><div className="bracket bl" /><div className="bracket br" />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4" style={{ background: "var(--line-2)", gap: 1 }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 h-swipe" style={{ background: "var(--line-2)", gap: 1 }}>
             {caps.map(({ Icon, k, v }, i) => (
               <div key={i} className={`bg-ink spec-row ${on ? "reveal-on" : ""}`} style={{ padding: "28px 24px", minHeight: 180, transitionDelay: `${i * 60}ms` }}>
                 <Icon size={22} strokeWidth={1.2} color="var(--gold)" />
