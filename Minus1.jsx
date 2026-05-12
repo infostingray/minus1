@@ -176,17 +176,23 @@ html, body { background: var(--ink); color: var(--bone); margin: 0; }
 .depth-marker { position: absolute; left: -3px; width: 7px; height: 1px; background: var(--ash); }
 @media (max-width: 900px) { .depth-bar { display: none; } }
 
-/* MARQUEE — refined */
+/* MARQUEE — two-row brand band */
 .marquee {
   overflow: hidden; white-space: nowrap;
   border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  padding: 18px 0; background: var(--carbon);
+  padding: 22px 0 18px;
+  background: var(--carbon);
 }
 .marquee-track {
   display: inline-flex; align-items: center; gap: 48px;
-  animation: marquee 50s linear infinite;
+  will-change: transform;
 }
-@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.marquee-track.row-1 { animation: marquee-l 64s linear infinite; }
+.marquee-track.row-2 { animation: marquee-r 42s linear infinite; margin-top: 14px; }
+@keyframes marquee-l { 0% { transform: translateX(0); }      100% { transform: translateX(-50%); } }
+@keyframes marquee-r { 0% { transform: translateX(-50%); }   100% { transform: translateX(0); } }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
 .marquee-row { display: inline-flex; align-items: center; gap: 48px; }
 .marquee-word {
   font-family: 'Syne', sans-serif; font-weight: 600;
@@ -194,7 +200,14 @@ html, body { background: var(--ink); color: var(--bone); margin: 0; }
   letter-spacing: -0.02em; color: var(--bone);
 }
 .marquee-word.accent { color: var(--gold); font-style: italic; font-weight: 700; }
+.marquee-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ash);
+}
+.marquee-mono.live { color: var(--gold); }
 .marquee-divider { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+.marquee-dot { width: 3px; height: 3px; background: var(--ash); border-radius: 50%; flex-shrink: 0; }
 .marquee-rule { width: 64px; height: 1px; background: var(--line-3); flex-shrink: 0; }
 
 .u-link { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; padding-bottom: 4px; transition: color 200ms ease; }
@@ -314,6 +327,57 @@ section { isolation: isolate; }
 .ai-send { background: transparent; border: 1px solid var(--gold); color: var(--gold); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 220ms ease; }
 .ai-send:hover { background: var(--gold); color: var(--ink); }
 .ai-send:disabled { border-color: var(--line-2); color: var(--ash); cursor: not-allowed; background: transparent; }
+
+/* ─── INTERACTIVE CARDS — Thesis + Bunkers ─── */
+.thesis-card, .bunker-card {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: box-shadow 500ms ease;
+}
+.thesis-card:hover, .bunker-card:hover {
+  box-shadow: 0 0 0 1px var(--gold), 0 0 40px rgba(200,156,74,0.18);
+}
+.thesis-card-img, .bunker-card-img {
+  transition: transform 1200ms cubic-bezier(.22,.61,.36,1), filter 800ms ease !important;
+}
+.thesis-card:hover .thesis-card-img,
+.bunker-card:hover .bunker-card-img {
+  transform: scale(1.06);
+  filter: grayscale(0%) contrast(1.12) brightness(0.7) !important;
+}
+.thesis-card:hover .bracket,
+.bunker-card:hover .bracket {
+  width: 22px;
+  height: 22px;
+  transition: width 400ms cubic-bezier(.22,.61,.36,1), height 400ms cubic-bezier(.22,.61,.36,1);
+  filter: drop-shadow(0 0 6px rgba(200,156,74,0.6));
+}
+/* Floating "Explore →" cue — hidden by default, slides in on hover */
+.thesis-card-cue, .bunker-card-cue {
+  position: absolute;
+  top: 22px; right: 22px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  background: rgba(5,5,5,0.7);
+  border: 1px solid rgba(200,156,74,0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0; transform: translateX(8px);
+  transition: opacity 350ms ease, transform 450ms cubic-bezier(.22,.61,.36,1);
+  pointer-events: none;
+  z-index: 4;
+}
+.thesis-card:hover .thesis-card-cue,
+.bunker-card:hover .bunker-card-cue {
+  opacity: 1; transform: translateX(0);
+}
+/* On touch devices, show the cue persistently so users know cards are tappable */
+@media (hover: none) {
+  .thesis-card-cue, .bunker-card-cue {
+    opacity: 0.9;
+    transform: translateX(0);
+  }
+}
 
 /* ─────────────────── MOBILE OPTIMIZATIONS ─────────────────── */
 @media (max-width: 768px) {
@@ -631,21 +695,63 @@ function DepthIndicator({ depth }) {
   );
 }
 
-/* ═══════════════════ HERO — single full-bleed bunker brand statement ═══════════════════ */
+/* ═══════════════════ HERO — single full-bleed, cursor parallax ═══════════════════ */
 
 function Hero({ scrollY }) {
   const cueHidden = scrollY > 80;
+  const sectionRef = useRef(null);
+  const [px, setPx] = useState({ x: 0, y: 0 });
+
+  // cursor parallax — shifts the bg image inversely to mouse position
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    let raf = 0;
+    const onMove = (e) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const r = el.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width - 0.5;   // -0.5..0.5
+        const ny = (e.clientY - r.top) / r.height - 0.5;
+        setPx({ x: -nx * 28, y: -ny * 22 });               // inverse, ~24px max
+      });
+    };
+    const onLeave = () => setPx({ x: 0, y: 0 });
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
 
   return (
-    <section id="top" style={{ height: "100vh", position: "relative", overflow: "hidden" }} className="grain vignette">
-      {/* full-bleed brand image */}
+    <section
+      id="top"
+      ref={sectionRef}
+      style={{ height: "100vh", position: "relative", overflow: "hidden" }}
+      className="grain vignette"
+    >
+      {/* parallax wrapper — translates with the cursor */}
       <div
-        className="bg-img drift"
         style={{
-          backgroundImage: `url(${IMG.hero}), linear-gradient(180deg, #1a1a1a, #050505)`,
-          filter: "grayscale(15%) contrast(1.08) brightness(0.5)",
+          position: "absolute",
+          inset: "-4%",
+          transform: `translate3d(${px.x}px, ${px.y}px, 0)`,
+          transition: "transform 700ms cubic-bezier(.22,.61,.36,1)",
+          willChange: "transform",
         }}
-      />
+      >
+        {/* drift animation stays on the inner layer */}
+        <div
+          className="bg-img drift"
+          style={{
+            backgroundImage: `url(${IMG.hero}), linear-gradient(180deg, #1a1a1a, #050505)`,
+            filter: "grayscale(15%) contrast(1.08) brightness(0.5)",
+          }}
+        />
+      </div>
 
       {/* dark gradient for legibility */}
       <div
@@ -780,34 +886,49 @@ function Hero({ scrollY }) {
   );
 }
 
-/* ═══════════════════ MARQUEE — brand language ═══════════════════ */
+/* ═══════════════════ MARQUEE — two-row brand band ═══════════════════ */
 
 function Marquee() {
-  const Row = () => (
+  // Top row — slow, leftward, the brand statement
+  const Statement = () => (
     <div className="marquee-row">
       <span className="marquee-word">MINUS 1</span>
       <span className="marquee-rule" />
       <span className="marquee-word accent">A new layer of living</span>
-      <span className="marquee-divider" />
-      <span className="marquee-word">CONTINUITY</span>
-      <span className="marquee-divider" />
-      <span className="marquee-word">PRIVACY</span>
-      <span className="marquee-divider" />
-      <span className="marquee-word">CONTROL</span>
       <span className="marquee-rule" />
-      <span className="marquee-word">SUBTERRANEAN</span>
-      <span className="marquee-divider" />
-      <span className="marquee-word accent">Beyond security</span>
+      <span className="marquee-word">Beneath the recognisable world</span>
       <span className="marquee-rule" />
-      <span className="marquee-word">GCC</span>
-      <span className="marquee-divider" />
-      <span className="marquee-word accent">By appointment</span>
-      <span className="marquee-divider" />
+    </div>
+  );
+  // Bottom row — faster, rightward, the technical data feed
+  const DataFeed = () => (
+    <div className="marquee-row" style={{ gap: 28 }}>
+      <span className="marquee-mono live">●&nbsp;−47m</span>
+      <span className="marquee-dot" />
+      <span className="marquee-mono">AR500 Steel · 6.3mm Hull</span>
+      <span className="marquee-dot" />
+      <span className="marquee-mono">NBC Filtration · ±0.1% O₂</span>
+      <span className="marquee-dot" />
+      <span className="marquee-mono">7-Day Autonomy</span>
+      <span className="marquee-dot" />
+      <span className="marquee-mono">≥ 1 MPa Overpressure</span>
+      <span className="marquee-dot" />
+      <span className="marquee-mono">ISO 9001 · CNAS</span>
+      <span className="marquee-dot" />
+      <span className="marquee-mono">Mil-grade Substrate</span>
+      <span className="marquee-dot" />
+      <span className="marquee-mono">By Appointment</span>
+      <span className="marquee-dot" />
     </div>
   );
   return (
     <div className="marquee">
-      <div className="marquee-track"><Row /><Row /></div>
+      <div className="marquee-track row-1">
+        <Statement /><Statement /><Statement />
+      </div>
+      <div className="marquee-track row-2">
+        <DataFeed /><DataFeed />
+      </div>
     </div>
   );
 }
@@ -844,8 +965,8 @@ function Thesis() {
               </div>
             </div>
 
-            <div ref={imgRef} className="md:col-span-5" style={{ position: "relative", height: 460, overflow: "hidden", background: "var(--steel)" }}>
-              <motion.div className="bg-img dark" style={{ backgroundImage: `url(${IMG.thesisImage}), linear-gradient(180deg, #1a1a1a, #050505)`, y: yImg, filter: "grayscale(30%) contrast(1.1) brightness(0.55)" }} />
+            <a ref={imgRef} href="#bunkers" className="thesis-card md:col-span-5" style={{ position: "relative", height: 460, overflow: "hidden", background: "var(--steel)", textDecoration: "none", color: "inherit", display: "block" }}>
+              <motion.div className="bg-img dark thesis-card-img" style={{ backgroundImage: `url(${IMG.thesisImage}), linear-gradient(180deg, #1a1a1a, #050505)`, y: yImg, filter: "grayscale(30%) contrast(1.1) brightness(0.55)" }} />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(5,5,5,0.2), rgba(5,5,5,0.6) 60%, rgba(5,5,5,0.9))" }} />
               <div style={{ position: "absolute", left: 22, top: 22, display: "flex", alignItems: "center", gap: 8 }}>
                 <span style={{ width: 6, height: 6, borderRadius: 999, background: "var(--gold)" }} className="pulse-glow" />
@@ -855,8 +976,12 @@ function Thesis() {
                 <Label color="var(--gold)">PROJECT FOOTPRINT</Label>
                 <div className="f-display" style={{ fontSize: 22, color: "var(--bone)", marginTop: 8, lineHeight: 1.1 }}>Two layers,<br />one address.</div>
               </div>
+              <div className="thesis-card-cue">
+                <Label color="var(--gold)">Explore the architecture</Label>
+                <ArrowRight size={14} color="var(--gold)" />
+              </div>
               <div className="bracket tl" /><div className="bracket br" />
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -898,8 +1023,8 @@ function BunkersShowcase() {
           </div>
 
           <div className="grid md:grid-cols-12" style={{ gap: 20 }}>
-            <div className="md:col-span-7" style={{ position: "relative", height: 480, overflow: "hidden", background: "var(--steel)" }}>
-              <div className="bg-img dark drift" style={{ backgroundImage: `url(${IMG.bunkersHero}), linear-gradient(180deg, #0a0a0a, #050505)`, filter: "grayscale(30%) contrast(1.1) brightness(0.55)" }} />
+            <a href="#contact" className="bunker-card md:col-span-7" style={{ position: "relative", height: 480, overflow: "hidden", background: "var(--steel)", textDecoration: "none", color: "inherit", display: "block" }}>
+              <div className="bg-img dark drift bunker-card-img" style={{ backgroundImage: `url(${IMG.bunkersHero}), linear-gradient(180deg, #0a0a0a, #050505)`, filter: "grayscale(30%) contrast(1.1) brightness(0.55)" }} />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 50%, rgba(5,5,5,0.85))" }} />
               <div style={{ position: "absolute", left: 24, top: 24, display: "flex", gap: 8, alignItems: "center" }}>
                 <ArrowDown size={12} color="var(--gold)" /><Label color="var(--bone)">VAULT ENTRY</Label>
@@ -908,28 +1033,32 @@ function BunkersShowcase() {
                 <Label color="var(--gold)">PRIMARY INGRESS</Label>
                 <div className="f-display" style={{ fontSize: "clamp(1.5rem, 3.4vw, 2.6rem)", color: "var(--bone)", lineHeight: 1, marginTop: 8 }}>AR500 blast envelope.</div>
               </div>
+              <div className="bunker-card-cue">
+                <Label color="var(--gold)">Request brief</Label>
+                <ArrowRight size={14} color="var(--gold)" />
+              </div>
               <div className="bracket tl" /><div className="bracket tr" /><div className="bracket bl" /><div className="bracket br" />
-            </div>
+            </a>
 
             <div className="md:col-span-5 flex flex-col" style={{ gap: 20 }}>
-              <div style={{ position: "relative", flex: 1, minHeight: 230, overflow: "hidden", background: "var(--steel)" }}>
-                <div className="bg-img dark" style={{ backgroundImage: `url(${IMG.bunkersInterior}), linear-gradient(180deg, #1a1a1a, #0a0a0a)` }} />
+              <a href="#contact" className="bunker-card" style={{ position: "relative", flex: 1, minHeight: 230, overflow: "hidden", background: "var(--steel)", textDecoration: "none", color: "inherit", display: "block" }}>
+                <div className="bg-img dark bunker-card-img" style={{ backgroundImage: `url(${IMG.bunkersInterior}), linear-gradient(180deg, #1a1a1a, #0a0a0a)` }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 40%, rgba(5,5,5,0.85))" }} />
                 <div style={{ position: "absolute", left: 20, bottom: 20, right: 20 }}>
                   <Label color="var(--gold)">INTERIOR</Label>
                   <div className="f-display" style={{ fontSize: 22, color: "var(--bone)", marginTop: 6, lineHeight: 1.1 }}>Architect-led finishing.</div>
                 </div>
                 <div className="bracket tl" /><div className="bracket br" />
-              </div>
-              <div style={{ position: "relative", flex: 1, minHeight: 230, overflow: "hidden", background: "var(--steel)" }}>
-                <div className="bg-img dark" style={{ backgroundImage: `url(${IMG.bunkersConcrete}), linear-gradient(180deg, #1a1a1a, #050505)` }} />
+              </a>
+              <a href="#contact" className="bunker-card" style={{ position: "relative", flex: 1, minHeight: 230, overflow: "hidden", background: "var(--steel)", textDecoration: "none", color: "inherit", display: "block" }}>
+                <div className="bg-img dark bunker-card-img" style={{ backgroundImage: `url(${IMG.bunkersConcrete}), linear-gradient(180deg, #1a1a1a, #050505)` }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 40%, rgba(5,5,5,0.85))" }} />
                 <div style={{ position: "absolute", left: 20, bottom: 20, right: 20 }}>
                   <Label color="var(--gold)">STRUCTURE</Label>
                   <div className="f-display" style={{ fontSize: 22, color: "var(--bone)", marginTop: 6, lineHeight: 1.1 }}>Reinforced steel hull.</div>
                 </div>
                 <div className="bracket tl" /><div className="bracket br" />
-              </div>
+              </a>
             </div>
           </div>
         </div>
